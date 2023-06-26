@@ -1,0 +1,16 @@
+.contenedorProductos{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.contenedorCadaProducto{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    text-align: center;
+}
+
+.imagenesCatalogo{
+    width: 20px;
+    
+}
