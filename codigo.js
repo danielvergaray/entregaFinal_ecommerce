@@ -77,6 +77,7 @@ function filtrarYMostrarPorCategoria (e){
     creacionTarjetaProductos(productosFiltrados)
     
     
+    
 }
 
 
