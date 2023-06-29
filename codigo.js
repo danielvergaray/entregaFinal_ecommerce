@@ -76,6 +76,7 @@ function filtrarYMostrarPorCategoria (e){
     let productosFiltrados = productos.filter(producto => producto.categoria=== e.target.value)
     creacionTarjetaProductos(productosFiltrados)
     
+    
 }
 
 
