@@ -17,7 +17,7 @@
     <header>
         <div class="desktopCabecera">
             <a href="./index.html"><img src="./imagenes/logo.png" alt="logo"></a>
-            <nav>
+           <!--  <nav>
                 <ul>
                     <li><a href="#">Dulces</a></li>
                     <li><a href="#">Salados</a></li>
@@ -25,12 +25,12 @@
                     <li><a href="#">Combos</a></li>
 
                 </ul>
-            </nav>
+            </nav> -->
 
             <form class="desktopCabecera__buscarContenedor" action="" method="post">
                 <!-- <label for="buscar"></label> -->
                 <input type="text" class="desktopCabecera__buscar" id="inputBusqueda" placeholder="¿Que deseas buscar?">
-                <button type="button" id="botonBusqueda">BUSCAR</button>
+                <button type="button" id="botonBusqueda"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
             <div>
                 <a class="desktopCabecera__carrito" href="#"><i class="fa-solid fa-cart-shopping"></i></a>
@@ -43,6 +43,13 @@
         <div class="main__container">
             <section class="productosContainer__barraIzquierda" id="opcionesFiltrado">
                 <h2>Categoria</h2>
+                <ul id="ulBtn" class="menuFiltrado_container">
+                    <button type="button" class="categoriasFiltrado" id="DULCES">DULCES</button>
+                    <button type="button" class="categoriasFiltrado" id="SALADOS">SALADOS</button>
+                    <button type="button" class="categoriasFiltrado" id="SALUDABLES">SALUDABLES</button>
+                    <button type="button" class="categoriasFiltrado" id="TODOS">TODOS</button>
+                </ul>
+                
                 <!-- <ul>
                     <li>Dulces<i class="fa-solid fa-angle-right"></i></li>
                     <li>Salados<i class="fa-solid fa-angle-right"></i></li>

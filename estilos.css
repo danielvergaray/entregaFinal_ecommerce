@@ -57,6 +57,14 @@
 .desktopCabecera .desktopCabecera__buscarContenedor {
     padding-left: 100px;
 }
+#botonBusqueda{
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    padding-left: 10px;
+    
+}
 
 .desktopCabecera .desktopCabecera__buscarContenedor .desktopCabecera__buscar {
     font-size: 21px;
@@ -181,4 +189,13 @@
 }
 .menuFiltrado_opciones{
     cursor: pointer;
+}
+.categoriasFiltrado{
+    background-color: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+.categoriasFiltrado:hover{
+    opacity: .7;
 }

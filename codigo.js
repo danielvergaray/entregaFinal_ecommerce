@@ -9,16 +9,16 @@ let productos = [
 
 ]
 
-let opcionesFiltrado = ["Dulces", "Salados", "Saludables", "Todos los productos"]
-
-//contenedorProductos.createElements
-let contenedorProductos = document.getElementById("contenedorProductos")
-let contenedorOpcionesFiltrado = document.getElementById("opcionesFiltrado")
 
 creacionTarjetaProductos(productos)
-creacionBarraIzquierda(opcionesFiltrado, productos)
 
 
+
+
+
+/*************************************************** CREACION DE PRODUCTOS ********************** */
+
+let contenedorProductos = document.getElementById("contenedorProductos")
 
 function creacionTarjetaProductos(arrayProductos) {
     let contenedorProductos = document.getElementById("contenedorProductos")
@@ -42,61 +42,52 @@ function creacionTarjetaProductos(arrayProductos) {
     })
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+
+/* ************************************************** BUSQUEDA DE PRODUCTOS *************************/
 
 let input = document.getElementById("inputBusqueda")
 let boton = document.getElementById("botonBusqueda")
-boton.addEventListener("click", () => filtrarYMostrar(productos, input.value))
+boton.addEventListener("click", () => filtrarYMostrar (productos, input.value))
+
+window.addEventListener("keypress", (e) => {
+    if(e.key == 10){
+        filtrarYMostrar (productos, input.value)
+    }
+})
 
 
 function filtrarYMostrar(arrayProductos, valorFIltro) {
-    let productosFiltrados = arrayProductos.filter(producto => producto.nombre.includes(valorFIltro))
+    let productosFiltrados = arrayProductos.filter(producto => producto.nombre.toLowerCase().includes(valorFIltro.toLowerCase()))
     creacionTarjetaProductos(productosFiltrados)
 }
 
-function creacionBarraIzquierda(opcionesFiltradoArray, productos) {
-    opcionesFiltradoArray.forEach(opcion => {
-
-        let ulCreadoFiltos = document.createElement("ul")
-        ulCreadoFiltos.innerHTML = `
-        <button type="button" class="menuFiltrado_opciones" id="categoriaFiltro" value=${productos.categoria}>${opcion}</button>`
-        contenedorOpcionesFiltrado.appendChild(ulCreadoFiltos)
-
-        // Agrego clases
-        ulCreadoFiltos.classList.add("menuFiltrado_container")
-        //elementoCreado.classList.add("contenedorCadaProducto")
-    })
-}
-
-let categoria= document.getElementById("categoriaFiltro")
-categoria.addEventListener("click",filtrarYMostrarPorCategoria )
-
-function filtrarYMostrarPorCategoria (e){
-    let productosFiltrados = productos.filter(producto => producto.categoria=== e.target.value)
-    creacionTarjetaProductos(productosFiltrados)
-    
-}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+/* ************************************************** FILTRAR POR CATEGORIA *************************/
 
-/* function filtrar (){
-    productosFiltrados.filtrar(producto => producto.categoria===) 
-    alert("hola")
-}
+let filtroDulce = productos.filter(prod => prod.categoria === 'DULCES')
+let filtroSalado = productos.filter(prod => prod.categoria === 'SALADOS')
+let filtroSaludables = productos.filter(prod => prod.categoria === 'SALUDABLES')
+let opcionesFiltrado = document.getElementById("ulBtn")
+opcionesFiltrado.addEventListener("click", (e) => {
+    let datoId = e.target.id
+    switch (datoId) {
+        case 'DULCES':
+            creacionTarjetaProductos(filtroDulce)
+            break;
+        case 'SALADOS':
+            creacionTarjetaProductos(filtroSalado)
+            break;
+        case 'SALUDABLES':
+            creacionTarjetaProductos(filtroSaludables)
+            break;
+        default:
+            creacionTarjetaProductos(productos)
+            break;
 
-
-let botonesFiltros = document.getElementsByClassName("botonFiltro")
-botonesFiltros.addEventListener("click", filtrar)
-
- let botonesFiltros = document.getElementsByClassName("botonFiltro")
-for (const botonFiltro of botonesFiltros) {
-  botonFiltro.addEventListener("click", filtrarYRenderizarPorCategoria)
-}
-
-
-function filtrarYRenderizarPorCategoria(e) {
-    console.log(e)
-    let elementosFiltrados = productos.filter(producto => producto.categoria === e.target.value)
-    renderizar(elementosFiltrados)
-  } */
+    }
+})
