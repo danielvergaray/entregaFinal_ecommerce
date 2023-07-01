@@ -6,6 +6,7 @@ let productos = [
     { id: 25, nombre: "Inka Chips salados", categoria: "SALADOS", precioUnitario: 2.50, linkImagen: "inkaChips.png" },
     { id: 30, nombre: "Almendras", categoria: "SALUDABLES", precioUnitario: 10.50, linkImagen: "almendras.png" },
     { id: 35, nombre: "Nueces peladas", categoria: "SALUDABLES", precioUnitario: 12.80, linkImagen: "nuecesPeladas.png" },
+    
 
 ]
 
@@ -17,26 +18,29 @@ creacionFiltrosCategorias(productos)
 /*************************************************** CREACION BOTONES FILTROS ********************** */
 
 function creacionFiltrosCategorias(arrayProductos) {
-    let categorias = []
-    for (const producto of arrayProductos) {
-        if (!categorias.includes(producto.categoria)) {
+    let categorias = ["TODOS"]
+    arrayProductos.forEach(producto => {
+        if (!categorias.includes(producto.categoria)) { // Se hace esto para evitar que se repitan categorias
             categorias.push(producto.categoria)
         }
-    }
+
+    })
 
     let contenedorFiltrosCategorias = document.getElementById("contenedorFiltrosCategorias")
-    contenedorFiltrosCategorias.innerHTML = ""
 
+    categorias.forEach(categoria => {
+        let botonCategoria= document.createElement("button")
+        botonCategoria.id= categoria
+        botonCategoria.innerText=categoria
+        contenedorFiltrosCategorias.appendChild(botonCategoria)
 
-    arrayProductos.forEach(cadaProducto => {
+        botonCategoria.classList.add("categoriasFiltrado")
+
+        let botonCapturado= document.getElementById(categoria)
+        botonCapturado.addEventListener("click",(e) => creacionTarjetaProductosPorCategorias (e.target.id, arrayProductos))
         
-        
-        let elementoCreado= document.createElement("div")
-        elementoCreado.innerHTML = `
-        <button type="button" class="categoriasFiltrado" value="${cadaProducto.categoria}">${cadaProducto.categoria}</button>
-        `
-        contenedorFiltrosCategorias.appendChild(elementoCreado)
     })
+    
 }
 
 
@@ -126,14 +130,16 @@ for (const categoriaFiltro of categoriasFiltros) {  // USO FOR OF YA QUE ADDEVEN
     categoriaFiltro.addEventListener("click", creacionTarjetaProductosPorCategorias)
 }
 
-function creacionTarjetaProductosPorCategorias(e) {
-    let opcion = e.target.value
-    let elementosFiltrados = productos.filter(producto => producto.categoria === e.target.value)
-    console.log(e.target.value)
-    if (opcion != "TODOS") {
-        creacionTarjetaProductos(elementosFiltrados)
-    } else {
+function creacionTarjetaProductosPorCategorias(id, productos) {
+    //let opcion = e.target.value
+    let elementosFiltrados = productos.filter(producto => producto.categoria === id)
+    //console.log(e.target.value)
+    if (id === "TODOS") {
         creacionTarjetaProductos(productos)
+        
+    } else {
+        
+        creacionTarjetaProductos(elementosFiltrados)
     }
 
 }

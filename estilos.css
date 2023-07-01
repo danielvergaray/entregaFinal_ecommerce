@@ -185,7 +185,11 @@
 /* Barra izquierda */
 
 .menuFiltrado_container{
-    padding: 5px 50px;
+    padding: 25px 50px;
+    display: flex;
+    flex-direction: column;
+    line-height: 100px;
+    
 }
 .menuFiltrado_opciones{
     cursor: pointer;
@@ -195,6 +199,8 @@
     border: none;
     font-size: 18px;
     cursor: pointer;
+    padding-top: 20px;
+    text-align: left;
 }
 .categoriasFiltrado:hover{
     opacity: .7;
