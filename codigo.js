@@ -11,6 +11,34 @@ let productos = [
 
 
 creacionTarjetaProductos(productos)
+creacionFiltrosCategorias(productos)
+
+
+/*************************************************** CREACION BOTONES FILTROS ********************** */
+
+function creacionFiltrosCategorias(arrayProductos) {
+    let categorias = []
+    for (const producto of arrayProductos) {
+        if (!categorias.includes(producto.categoria)) {
+            categorias.push(producto.categoria)
+        }
+    }
+
+    let contenedorFiltrosCategorias = document.getElementById("contenedorFiltrosCategorias")
+    contenedorFiltrosCategorias.innerHTML = ""
+
+
+    arrayProductos.forEach(cadaProducto => {
+        
+        
+        let elementoCreado= document.createElement("div")
+        elementoCreado.innerHTML = `
+        <button type="button" class="categoriasFiltrado" value="${cadaProducto.categoria}">${cadaProducto.categoria}</button>
+        `
+        contenedorFiltrosCategorias.appendChild(elementoCreado)
+    })
+}
+
 
 
 
@@ -50,11 +78,12 @@ function creacionTarjetaProductos(arrayProductos) {
 
 let input = document.getElementById("inputBusqueda")
 let boton = document.getElementById("botonBusqueda")
-boton.addEventListener("click", () => filtrarYMostrar (productos, input.value))
+boton.addEventListener("click", () => filtrarYMostrar(productos, input.value))
 
-window.addEventListener("keypress", (e) => {
-    if(e.key == 10){
-        filtrarYMostrar (productos, input.value)
+input.addEventListener("keypress", (e) => {
+    let keyCode = e.keyCode
+    if (keyCode == 13) {
+        filtrarYMostrar(productos, input.value)
     }
 })
 
@@ -69,7 +98,7 @@ function filtrarYMostrar(arrayProductos, valorFIltro) {
 
 /* ************************************************** FILTRAR POR CATEGORIA *************************/
 
-let filtroDulce = productos.filter(prod => prod.categoria === 'DULCES')
+/* let filtroDulce = productos.filter(prod => prod.categoria === 'DULCES')
 let filtroSalado = productos.filter(prod => prod.categoria === 'SALADOS')
 let filtroSaludables = productos.filter(prod => prod.categoria === 'SALUDABLES')
 let opcionesFiltrado = document.getElementById("ulBtn")
@@ -90,4 +119,21 @@ opcionesFiltrado.addEventListener("click", (e) => {
             break;
 
     }
-})
+}) */
+
+let categoriasFiltros = document.getElementsByClassName("categoriasFiltrado")
+for (const categoriaFiltro of categoriasFiltros) {  // USO FOR OF YA QUE ADDEVENELISTENER SOLAMENTE SE AGREGA A ELEMENTOS INDIVUDUALES Y GETELEMENTSBYCLASSNAME DEVUELVE UN LISTADO
+    categoriaFiltro.addEventListener("click", creacionTarjetaProductosPorCategorias)
+}
+
+function creacionTarjetaProductosPorCategorias(e) {
+    let opcion = e.target.value
+    let elementosFiltrados = productos.filter(producto => producto.categoria === e.target.value)
+    console.log(e.target.value)
+    if (opcion != "TODOS") {
+        creacionTarjetaProductos(elementosFiltrados)
+    } else {
+        creacionTarjetaProductos(productos)
+    }
+
+}
