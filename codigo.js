@@ -87,7 +87,19 @@ boton.addEventListener("click", () => filtrarYMostrar(productos, input.value))
 input.addEventListener("keypress", (e) => {
     let keyCode = e.keyCode
     if (keyCode == 13) {
-        filtrarYMostrar(productos, input.value)
+        e.preventDefault() // Para que no me lance erro 405
+
+        if(input.value.includes(productos.nombre)){
+            filtrarYMostrar(productos, input.value)
+            
+        } else {
+            
+           
+            productoNoEncontrado()
+            
+        }
+
+        
     }
 })
 
@@ -99,6 +111,32 @@ function filtrarYMostrar(arrayProductos, valorFIltro) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+/* ************************************************** PRODUCTO NO ENCONTRADO *************************/
+
+function productoNoEncontrado() {
+    let contenedorProductos = document.getElementById("contenedorProductos")
+    contenedorProductos.innerHTML = ""
+
+    
+
+        let elementoCreado = document.createElement("div")
+        elementoCreado.innerHTML = `<h2>Producto no encontrado</h2>
+        <button>Regresar</button></div>`
+        contenedorProductos.appendChild(elementoCreado)
+
+
+
+        // Agrego clases
+        contenedorProductos.classList.add("contenedorProductos")
+        elementoCreado.classList.add("contenedorCadaProducto")
+        //elementoCreado.img.classList.add("imagenesCatalogo")
+    
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /* ************************************************** FILTRAR POR CATEGORIA *************************/
 
@@ -125,10 +163,10 @@ opcionesFiltrado.addEventListener("click", (e) => {
     }
 }) */
 
-let categoriasFiltros = document.getElementsByClassName("categoriasFiltrado")
+/* let categoriasFiltros = document.getElementsByClassName("categoriasFiltrado")
 for (const categoriaFiltro of categoriasFiltros) {  // USO FOR OF YA QUE ADDEVENELISTENER SOLAMENTE SE AGREGA A ELEMENTOS INDIVUDUALES Y GETELEMENTSBYCLASSNAME DEVUELVE UN LISTADO
     categoriaFiltro.addEventListener("click", creacionTarjetaProductosPorCategorias)
-}
+} */
 
 function creacionTarjetaProductosPorCategorias(id, productos) {
     //let opcion = e.target.value
@@ -143,3 +181,9 @@ function creacionTarjetaProductosPorCategorias(id, productos) {
     }
 
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*************************************************** CREACION DE PRODUCTOS ********************** */
+
+let carritoCompras
