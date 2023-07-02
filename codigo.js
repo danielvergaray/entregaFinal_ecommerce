@@ -6,7 +6,7 @@ let productos = [
     { id: 25, nombre: "Inka Chips salados", categoria: "SALADOS", precioUnitario: 2.50, linkImagen: "inkaChips.png" },
     { id: 30, nombre: "Almendras", categoria: "SALUDABLES", precioUnitario: 10.50, linkImagen: "almendras.png" },
     { id: 35, nombre: "Nueces peladas", categoria: "SALUDABLES", precioUnitario: 12.80, linkImagen: "nuecesPeladas.png" },
-    
+
 
 ]
 
@@ -29,18 +29,18 @@ function creacionFiltrosCategorias(arrayProductos) {
     let contenedorFiltrosCategorias = document.getElementById("contenedorFiltrosCategorias")
 
     categorias.forEach(categoria => {
-        let botonCategoria= document.createElement("button")
-        botonCategoria.id= categoria
-        botonCategoria.innerText=categoria
+        let botonCategoria = document.createElement("button")
+        botonCategoria.id = categoria
+        botonCategoria.innerText = categoria
         contenedorFiltrosCategorias.appendChild(botonCategoria)
 
         botonCategoria.classList.add("categoriasFiltrado")
 
-        let botonCapturado= document.getElementById(categoria)
-        botonCapturado.addEventListener("click",(e) => creacionTarjetaProductosPorCategorias (e.target.id, arrayProductos))
-        
+        let botonCapturado = document.getElementById(categoria)
+        botonCapturado.addEventListener("click", (e) => creacionTarjetaProductosPorCategorias(e.target.id, arrayProductos))
+
     })
-    
+
 }
 
 
@@ -54,7 +54,10 @@ let contenedorProductos = document.getElementById("contenedorProductos")
 
 function creacionTarjetaProductos(arrayProductos) {
     let contenedorProductos = document.getElementById("contenedorProductos")
+    let PaginaNoEncontrada = document.getElementById("PaginaNoEncontrada")
     contenedorProductos.innerHTML = ""
+
+    PaginaNoEncontrada.classList.add("oculto")
 
     arrayProductos.forEach(cadaProducto => {
 
@@ -72,6 +75,7 @@ function creacionTarjetaProductos(arrayProductos) {
         elementoCreado.classList.add("contenedorCadaProducto")
         //elementoCreado.img.classList.add("imagenesCatalogo")
     })
+    
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,6 +83,8 @@ function creacionTarjetaProductos(arrayProductos) {
 
 
 /* ************************************************** BUSQUEDA DE PRODUCTOS *************************/
+
+
 
 let input = document.getElementById("inputBusqueda")
 let boton = document.getElementById("botonBusqueda")
@@ -89,17 +95,19 @@ input.addEventListener("keypress", (e) => {
     if (keyCode == 13) {
         e.preventDefault() // Para que no me lance erro 405
 
-        if(input.value.includes(productos.nombre)){
+        let productosFiltrados = productos.filter(producto => producto.nombre.toLowerCase().includes(input.value.toLowerCase()))
+        if (productosFiltrados.length >= 1) {
             filtrarYMostrar(productos, input.value)
-            
+            //console.log("hay prodd");
+
         } else {
-            
-           
-            productoNoEncontrado()
-            
+
+
+            productoNoEncontrado(productos)
+
         }
 
-        
+
     }
 })
 
@@ -114,24 +122,33 @@ function filtrarYMostrar(arrayProductos, valorFIltro) {
 
 /* ************************************************** PRODUCTO NO ENCONTRADO *************************/
 
-function productoNoEncontrado() {
+function productoNoEncontrado(arrayProductos) {
+    
     let contenedorProductos = document.getElementById("contenedorProductos")
-    contenedorProductos.innerHTML = ""
+    let PaginaNoEncontrada = document.getElementById("PaginaNoEncontrada")
 
-    
-
-        let elementoCreado = document.createElement("div")
-        elementoCreado.innerHTML = `<h2>Producto no encontrado</h2>
-        <button>Regresar</button></div>`
-        contenedorProductos.appendChild(elementoCreado)
+    contenedorProductos.classList.add("oculto")
 
 
 
-        // Agrego clases
-        contenedorProductos.classList.add("contenedorProductos")
-        elementoCreado.classList.add("contenedorCadaProducto")
-        //elementoCreado.img.classList.add("imagenesCatalogo")
-    
+    //let elementoCreado = document.createElement("div")
+    PaginaNoEncontrada.innerHTML = `<img class="imagenesCatalogo" src="./imagenes/productoNoEncontrado.jpg"</img>
+        <h2>Producto no encontrado</h2>
+        <button type="button" id="botonProductoNoEncontrado">Regresar</button></div>`
+    //contenedorProductos.appendChild(elementoCreado)
+
+
+
+    // Agrego clases
+    PaginaNoEncontrada.classList.add("contenedorProductos")
+    PaginaNoEncontrada.classList.remove("oculto")
+    //contenedorProductos.classList.add("contenedorPaginaNoEncontrada")
+    //elementoCreado.img.classList.add("imagenesCatalogo")
+
+    let botonProductoNoEncontrado = document.getElementById("botonProductoNoEncontrado")
+
+    botonProductoNoEncontrado.addEventListener("click", () => creacionTarjetaProductos(arrayProductos))
+
 }
 
 
@@ -174,9 +191,9 @@ function creacionTarjetaProductosPorCategorias(id, productos) {
     //console.log(e.target.value)
     if (id === "TODOS") {
         creacionTarjetaProductos(productos)
-        
+
     } else {
-        
+
         creacionTarjetaProductos(elementosFiltrados)
     }
 
