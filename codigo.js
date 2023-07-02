@@ -58,6 +58,7 @@ function creacionTarjetaProductos(arrayProductos) {
     contenedorProductos.innerHTML = ""
 
     PaginaNoEncontrada.classList.add("oculto")
+    contenedorProductos.classList.remove("oculto")
 
     arrayProductos.forEach(cadaProducto => {
 
