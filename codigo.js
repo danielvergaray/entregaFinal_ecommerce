@@ -74,7 +74,7 @@ function creacionTarjetaProductos(arrayProductos) {
         elementoCreado.innerHTML = `<h2>${cadaProducto.nombre}</h2>
         <img class="imagenesCatalogo" src="./imagenes/${cadaProducto.linkImagen}"</img>
         <h3>ONLINE:  $ ${cadaProducto.precioUnitario}</h3>
-        <div class="productos__containerBoton"><button>Agregar</button></div>`
+        <div class="productos__containerBoton"><button id="${cadaProducto.id}">Agregar</button></div>`
         contenedorProductos.appendChild(elementoCreado)
 
 
@@ -83,6 +83,9 @@ function creacionTarjetaProductos(arrayProductos) {
         contenedorProductos.classList.add("contenedorProductos")
         elementoCreado.classList.add("contenedorCadaProducto")
         //elementoCreado.img.classList.add("imagenesCatalogo")
+
+        let botonAgregarAlCarrito= document.getElementById(`"${cadaProducto.id}"`)
+        botonAgregarAlCarrito.addEventListener("click", () => carritoCompras(funcionProductos (), botonAgregarAlCarrito))
     })
     
 }
@@ -230,4 +233,13 @@ function creacionTarjetaProductosPorCategorias(id, productos) {
 
 /*************************************************** CREACION DE PRODUCTOS ********************** */
 
-let carritoCompras
+function carritoCompras (arrayProductos, idProducto){
+    let carritoCompras= []
+
+    let productoSeleccionado= arrayProductos.find((producto)=> producto.id===idProducto)
+
+    console.log(productoSeleccionado)
+
+
+
+}
