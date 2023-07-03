@@ -1,18 +1,26 @@
-let productos = [
 
-    { id: 10, nombre: "Galleta Oreo", categoria: "DULCES", precioUnitario: 5.90, linkImagen: "oreoVainilla.png" },
-    { id: 15, nombre: "Bombones", categoria: "DULCES", precioUnitario: 8.50, linkImagen: "bombonesRellenos.png" },
-    { id: 20, nombre: "Doritos salados", categoria: "SALADOS", precioUnitario: 3.80, linkImagen: "doritos.png" },
-    { id: 25, nombre: "Inka Chips salados", categoria: "SALADOS", precioUnitario: 2.50, linkImagen: "inkaChips.png" },
-    { id: 30, nombre: "Almendras", categoria: "SALUDABLES", precioUnitario: 10.50, linkImagen: "almendras.png" },
-    { id: 35, nombre: "Nueces peladas", categoria: "SALUDABLES", precioUnitario: 12.80, linkImagen: "nuecesPeladas.png" },
+creacionTarjetaProductos(funcionProductos())
+creacionFiltrosCategorias(funcionProductos())
+busquedaPorEnter (funcionProductos())
+
+function funcionProductos (){
+    let productos = [
+
+        { id: 10, nombre: "Galleta Oreo", categoria: "DULCES", precioUnitario: 5.90, linkImagen: "oreoVainilla.png" },
+        { id: 15, nombre: "Bombones", categoria: "DULCES", precioUnitario: 8.50, linkImagen: "bombonesRellenos.png" },
+        { id: 20, nombre: "Doritos salados", categoria: "SALADOS", precioUnitario: 3.80, linkImagen: "doritos.png" },
+        { id: 25, nombre: "Inka Chips salados", categoria: "SALADOS", precioUnitario: 2.50, linkImagen: "inkaChips.png" },
+        { id: 30, nombre: "Almendras", categoria: "SALUDABLES", precioUnitario: 10.50, linkImagen: "almendras.png" },
+        { id: 35, nombre: "Nueces peladas", categoria: "SALUDABLES", precioUnitario: 12.80, linkImagen: "nuecesPeladas.png" },
+    
+    
+    ]
+    return productos
+}
 
 
-]
 
 
-creacionTarjetaProductos(productos)
-creacionFiltrosCategorias(productos)
 
 
 /*************************************************** CREACION BOTONES FILTROS ********************** */
@@ -50,7 +58,7 @@ function creacionFiltrosCategorias(arrayProductos) {
 
 /*************************************************** CREACION DE PRODUCTOS ********************** */
 
-let contenedorProductos = document.getElementById("contenedorProductos")
+
 
 function creacionTarjetaProductos(arrayProductos) {
     let contenedorProductos = document.getElementById("contenedorProductos")
@@ -85,37 +93,55 @@ function creacionTarjetaProductos(arrayProductos) {
 
 /* ************************************************** BUSQUEDA DE PRODUCTOS *************************/
 
+function busquedaPorEnter () {
+
 
 
 let input = document.getElementById("inputBusqueda")
 let boton = document.getElementById("botonBusqueda")
-boton.addEventListener("click", () => filtrarYMostrar(productos, input.value))
+boton.addEventListener("click",buscarPorLupa)
+
+
+/* ***** BUSQUEDA CON LA TECLA ENTER *************************/
 
 input.addEventListener("keypress", (e) => {
     let keyCode = e.keyCode
     if (keyCode == 13) {
         e.preventDefault() // Para que no me lance erro 405
 
-        let productosFiltrados = productos.filter(producto => producto.nombre.toLowerCase().includes(input.value.toLowerCase()))
+        let productosFiltrados = funcionProductos ().filter(producto => producto.nombre.toLowerCase().includes(input.value.toLowerCase()))
         if (productosFiltrados.length >= 1) {
-            filtrarYMostrar(productos, input.value)
+            filtrarYMostrar(funcionProductos (), input.value)
             //console.log("hay prodd");
 
         } else {
 
-
-            productoNoEncontrado(productos)
-
+            productoNoEncontrado(funcionProductos ())
         }
 
 
     }
 })
+}
+function buscarPorLupa (){
+    console.log("lupa")
+    let input = document.getElementById("inputBusqueda")
+    let productosFiltrados = funcionProductos ().filter(producto => producto.nombre.toLowerCase().includes(input.value.toLowerCase()))
+    if(productosFiltrados.length >= 1){
+        
+        filtrarYMostrar(funcionProductos (), input.value)
+    } else {
+        productoNoEncontrado(funcionProductos())
+        
+    }
+}
 
-
-function filtrarYMostrar(arrayProductos, valorFIltro) {
-    let productosFiltrados = arrayProductos.filter(producto => producto.nombre.toLowerCase().includes(valorFIltro.toLowerCase()))
+function filtrarYMostrar(arrayProductos, valorFiltro) {
+    let productosFiltrados = arrayProductos.filter(producto => producto.nombre.toLowerCase().includes(valorFiltro.toLowerCase()))
     creacionTarjetaProductos(productosFiltrados)
+    
+
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -191,7 +217,7 @@ function creacionTarjetaProductosPorCategorias(id, productos) {
     let elementosFiltrados = productos.filter(producto => producto.categoria === id)
     //console.log(e.target.value)
     if (id === "TODOS") {
-        creacionTarjetaProductos(productos)
+        creacionTarjetaProductos(funcionProductos ())
 
     } else {
 
