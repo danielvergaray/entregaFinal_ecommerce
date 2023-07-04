@@ -84,7 +84,7 @@ function creacionTarjetaProductos(arrayProductos) {
         elementoCreado.classList.add("contenedorCadaProducto")
         //elementoCreado.img.classList.add("imagenesCatalogo")
 
-        let botonAgregarAlCarrito= document.getElementById(`"${cadaProducto.id}"`)
+        let botonAgregarAlCarrito= document.getElementById("cadaProducto.id")
         botonAgregarAlCarrito.addEventListener("click", () => carritoCompras(funcionProductos (), botonAgregarAlCarrito))
     })
     
