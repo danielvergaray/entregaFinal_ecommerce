@@ -75,16 +75,18 @@
     height: 40.70px;
 }
 
-.desktopCabecera div .desktopCabecera__carrito {
-    padding: 0 125px;
-    padding-right: 50px;
+.desktopCabecera__carrito {
+    padding: 0px;
+    padding-right: 0px;
     font-size: 25px;
+    width: fit-content;
 }
 
 .main__container {
     height: 100vh;
     display: grid;
     grid-template-columns: 15% 85%;
+    z-index: 10;
 }
 
 .productosContainer__barraIzquierda {
@@ -108,10 +110,11 @@
 .contenedorProductos {
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
+    width: 90%;
     justify-content: space-evenly;
-    padding: 50px 10px 40px 10px;
-}
+    padding: 50px 0px 40px 10px;
+    margin: auto;
+}   
 .contenedorProductosFiltrados{
     display: flex;
     flex-direction: column;
@@ -246,4 +249,20 @@
 
 .oculto{
     display: none;
+}
+
+.pantallaCarrito{
+    z-index: 100;
+    
+    height: 500px;
+    margin-left: 50%;
+    text-align: center;
+    position: absolute;
+    background-color: yellow;
+    display: flex;
+    flex-direction: column;
+}
+.pantallaCarrito div{
+    margin: auto;
+    
 }
