@@ -1,7 +1,8 @@
 
-creacionTarjetaProductos(funcionProductos())
-creacionFiltrosCategorias(funcionProductos())
-busquedaPorEnter(funcionProductos())
+funcionProductos()
+//creacionTarjetaProductos(funcionProductos())
+
+
 //abrirCarrito()
 
 function funcionProductos() {
@@ -16,7 +17,10 @@ function funcionProductos() {
 
 
     ]
-    return productos
+    
+    creacionTarjetaProductos(productos)
+    creacionFiltrosCategorias(productos)
+    busquedaProducto(productos)
 }
 
 
@@ -28,6 +32,7 @@ function funcionProductos() {
 
 function creacionFiltrosCategorias(arrayProductos) {
     let categorias = ["TODOS"]
+
     arrayProductos.forEach(producto => {
         if (!categorias.includes(producto.categoria)) { // Se hace esto para evitar que se repitan categorias
             categorias.push(producto.categoria)
@@ -36,6 +41,7 @@ function creacionFiltrosCategorias(arrayProductos) {
     })
 
     let contenedorFiltrosCategorias = document.getElementById("contenedorFiltrosCategorias")
+    contenedorFiltrosCategorias.innerHTML = "" // Para que no se dupliquen las categorias
 
     categorias.forEach(categoria => {
         let botonCategoria = document.createElement("button")
@@ -70,6 +76,7 @@ function creacionTarjetaProductos(arrayProductos) {
     PaginaNoEncontrada.classList.add("oculto")
     contenedorProductos.classList.remove("oculto")
     //pantallaCarrito.classList.add("oculto")
+
     arrayProductos.forEach(cadaProducto => {
 
         let elementoCreado = document.createElement("div")
@@ -98,13 +105,13 @@ function creacionTarjetaProductos(arrayProductos) {
 
 /* ************************************************** BUSQUEDA DE PRODUCTOS *************************/
 
-function busquedaPorEnter() {
+function busquedaProducto(arrayProductos) {
 
 
 
     let input = document.getElementById("inputBusqueda")
     let boton = document.getElementById("botonBusqueda")
-    boton.addEventListener("click", buscarPorLupa)
+    boton.addEventListener("click", () => buscarPorLupa (arrayProductos))
 
 
     /* ***** BUSQUEDA CON LA TECLA ENTER *************************/
@@ -114,29 +121,29 @@ function busquedaPorEnter() {
         if (keyCode == 13) {
             e.preventDefault() // Para que no me lance erro 405
 
-            let productosFiltrados = funcionProductos().filter(producto => producto.nombre.toLowerCase().includes(input.value.toLowerCase()))
+            let productosFiltrados = arrayProductos.filter(producto => producto.nombre.toLowerCase().includes(input.value.toLowerCase()))
             if (productosFiltrados.length >= 1) {
-                filtrarYMostrar(funcionProductos(), input.value)
+                filtrarYMostrar(arrayProductos, input.value)
                 //console.log("hay prodd");
 
             } else {
 
-                productoNoEncontrado(funcionProductos())
+                productoNoEncontrado(arrayProductos)
             }
 
 
         }
     })
 }
-function buscarPorLupa() {
-    console.log("lupa")
+function buscarPorLupa(arrayProductos) {
+    
     let input = document.getElementById("inputBusqueda")
-    let productosFiltrados = funcionProductos().filter(producto => producto.nombre.toLowerCase().includes(input.value.toLowerCase()))
+    let productosFiltrados = arrayProductos.filter(producto => producto.nombre.toLowerCase().includes(input.value.toLowerCase()))
     if (productosFiltrados.length >= 1) {
 
-        filtrarYMostrar(funcionProductos(), input.value)
+        filtrarYMostrar(arrayProductos, input.value)
     } else {
-        productoNoEncontrado(funcionProductos())
+        productoNoEncontrado(arrayProductos)
 
     }
 }
@@ -191,12 +198,12 @@ function productoNoEncontrado(arrayProductos) {
 
 
 
-function creacionTarjetaProductosPorCategorias(id, productos) {
+function creacionTarjetaProductosPorCategorias(id, arrayProductos) {
     //let opcion = e.target.value
-    let elementosFiltrados = productos.filter(producto => producto.categoria === id)
+    let elementosFiltrados = arrayProductos.filter(producto => producto.categoria === id)
     //console.log(e.target.value)
     if (id === "TODOS") {
-        creacionTarjetaProductos(funcionProductos())
+        creacionTarjetaProductos(arrayProductos)
 
     } else {
 
@@ -211,22 +218,33 @@ function creacionTarjetaProductosPorCategorias(id, productos) {
 
 function carritoCompras(e, arrayProductos) {
     let carritoCompras = []
+    
+    //let carritoComprasJSON= localStorage.setItem('carritoJson', JSON.stringify(carritoCompras))
+
+    //let carritoJSON= JSON.parse(localStorage.getItem("carritoCompras"))
+
+   /*  if(carritoJSON){
+        carritoCompras=carritoJSON
+    } */
+
     let idProducto = e.target.id
     //console.log(e.target.id)
     let productoSeleccionado = arrayProductos.find((producto => producto.id === Number(idProducto)))
 
-    console.log(productoSeleccionado)
+    //console.log(productoSeleccionado)
 
     carritoCompras.push({
         nombre: productoSeleccionado.nombre,
         cantidad: productoSeleccionado.cantidad,
-        precio: productoSeleccionado.precioUnitario
+        precioUnitario: productoSeleccionado.precioUnitario,
+        linkImagen: productoSeleccionado.linkImagen
     })
-    console.log(carritoCompras)
+    
 
     let iconoCarrito = document.getElementById("iconoCarrito")
     iconoCarrito.addEventListener("click",()=> mostrarCarrito (carritoCompras))
-    console.log("abrirCArrito")
+    //localStorage.setItem("carritoCompras", JSON.stringify(carritoCompras))
+    //console.log("abrirCArrito")
 
 }
 
@@ -240,7 +258,9 @@ function mostrarCarrito(arrayCarritoCompras) {
     let patallaDelCarrito = document.getElementById("pantallaCarrito")
 
     arrayCarritoCompras.forEach(producto => {
-        patallaDelCarrito.innerHTML+= `<p>${producto.nombre} ${producto.precioUnitario}</p>`
+        patallaDelCarrito.innerHTML+= `<h2>${producto.nombre}</h2>
+        <h3>${producto.precioUnitario}</h3>
+        <img class="imagenesCatalogo" src="./imagenes/${producto.linkImagen}"</img>`
     })
     
     /* let contenedorPantallaCarrito = document.createElement("div")
