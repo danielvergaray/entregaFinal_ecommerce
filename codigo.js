@@ -5,12 +5,12 @@ funcionProductos()
 function funcionProductos() {
     let productos = [
 
-        { id: 10, nombre: "Galleta Oreo", categoria: "DULCES", precioUnitario: 5.90, linkImagen: "oreoVainilla.png" },
-        { id: 15, nombre: "Bombones", categoria: "DULCES", precioUnitario: 8.50, linkImagen: "bombonesRellenos.png" },
-        { id: 20, nombre: "Doritos salados", categoria: "SALADOS", precioUnitario: 3.80, linkImagen: "doritos.png" },
+        { id: 10, nombre: "Galleta Oreo", categoria: "DULCES", precioUnitario: 5.00, linkImagen: "oreoVainilla.png" },
+        { id: 15, nombre: "Bombones", categoria: "DULCES", precioUnitario: 8.00, linkImagen: "bombonesRellenos.png" },
+        { id: 20, nombre: "Doritos salados", categoria: "SALADOS", precioUnitario: 4.00, linkImagen: "doritos.png" },
         { id: 25, nombre: "Inka Chips salados", categoria: "SALADOS", precioUnitario: 2.50, linkImagen: "inkaChips.png" },
         { id: 30, nombre: "Almendras", categoria: "SALUDABLES", precioUnitario: 10.50, linkImagen: "almendras.png" },
-        { id: 35, nombre: "Nueces peladas", categoria: "SALUDABLES", precioUnitario: 12.80, linkImagen: "nuecesPeladas.png" },
+        { id: 35, nombre: "Nueces peladas", categoria: "SALUDABLES", precioUnitario: 12.50, linkImagen: "nuecesPeladas.png" },
 
 
     ]
@@ -26,14 +26,17 @@ function funcionProductos() {
     let contenedorProductos = document.getElementById("contenedorProductos")
 
     creacionTarjetaProductos(productos, carrito, contenedorProductos)
-    creacionFiltrosCategorias(productos)
-    busquedaProducto(productos)
+    creacionFiltrosCategorias(productos, carrito, contenedorProductos)
+    busquedaProducto(productos, carrito, contenedorProductos)
 
     let botonFinalizarCompra = document.getElementById("finalizarCompra")
     botonFinalizarCompra.addEventListener("click", () => finalizarCompra(carrito))
 }
 
 function finalizarCompra(carrito) {
+    /* let botonFinalizarCompra= document.getElementById("finalizarCompra")
+    botonFinalizarCompra.addEventListener("click", finalizarProyecto) */
+
     let carritoFisico = document.getElementById("pantallaCarrito")
     carritoFisico.innerHTML = ""
     localStorage.clear()
@@ -41,12 +44,20 @@ function finalizarCompra(carrito) {
     renderizarCarrito(carrito)
   }
 
+  function finalizarProyecto(){
+    let carritoFisico = document.getElementById("contenedorCarrito")
+    let botonFinalizarCompra= document.getElementById("finalizarCompra")
+    carritoFisico.innerHTML= `<h1>Gracias por su compra </h1>`
+    botonFinalizarCompra.classList.add("oculto")
+
+  }
 
   function renderizarCarrito(carritoJSON) {
     let carritoFisico = document.getElementById("pantallaCarrito")
     carritoFisico.innerHTML=""
     
-  
+    carritoFisico.innerHTML= `<h1>Su carrito contiene los siguientes productos </h1>`
+    
     carritoJSON.forEach(({ nombre, precioUnitario, unidades, subtotal, linkImagen }) => {
       let elementoDelCarrito = document.createElement("div")
       elementoDelCarrito.classList.add("elementoDelCarrito")
@@ -66,6 +77,8 @@ function finalizarCompra(carrito) {
       elementoDelCarrito.classList.add("contenedorProductos")
     
     })
+    let botonFinalizarCompra= document.getElementById("finalizarCompra")
+    botonFinalizarCompra.addEventListener("click", finalizarProyecto)
   }
 
 
@@ -120,7 +133,7 @@ function mostrarOcultar() {
 
 /*************************************************** CREACION BOTONES FILTROS ********************** */
 
-function creacionFiltrosCategorias(arrayProductos) {
+function creacionFiltrosCategorias(arrayProductos, carrito, contenedorProductos) {
     let categorias = ["TODOS"]
 
     arrayProductos.forEach(producto => {
@@ -142,7 +155,7 @@ function creacionFiltrosCategorias(arrayProductos) {
         botonCategoria.classList.add("categoriasFiltrado")
 
         let botonCapturado = document.getElementById(categoria)
-        botonCapturado.addEventListener("click", (e) => creacionTarjetaProductosPorCategorias(e.target.id, arrayProductos))
+        botonCapturado.addEventListener("click", (e) => creacionTarjetaProductosPorCategorias(e.target.id, arrayProductos, carrito, contenedorProductos))
 
     })
 
@@ -181,54 +194,29 @@ function creacionTarjetaProductos(arrayProductos, carrito, contenedorProductos) 
         elementoCreado.classList.add("contenedorCadaProducto")
         //elementoCreado.img.classList.add("imagenesCatalogo")
 
-
+        
     })
     arrayProductos.forEach(producto => {
 
         let botonAgregarAlCarrito = document.getElementById(producto.id)
         botonAgregarAlCarrito.addEventListener("click", (e) => agregarAlCarrito(e, arrayProductos, carrito))
+        botonAgregarAlCarrito.addEventListener("click", alertaProductoAgregado)
     })
+    
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
-
-/* function mostrarCarrito(arrayCarritoCompras) {
-
-    //let iconoCarrito = document.getElementById("pantallaCarrito")
-    let patallaDelCarrito = document.getElementById("pantallaCarrito")
-
-    arrayCarritoCompras.forEach(producto => {
-        patallaDelCarrito.innerHTML += `<h2>${producto.nombre}</h2>
-        <h3>${producto.precioUnitario}</h3>
-        <img class="imagenesCatalogo" src="./imagenes/${producto.linkImagen}"</img>`
-    })
-
-    /* let contenedorPantallaCarrito = document.createElement("div")
-
-    iconoCarrito.classList.remove("oculto")
-    iconoCarrito.classList.add("iconoCarrito") */
-
-
-
-    /* contenedorPantallaCarrito.innerHTML = `<h1>Bienvenido al carrito</h1>
-    
-    `
-    patallaDelCarrito.appendChild(contenedorPantallaCarrito)
-} */
-
-
 /* ************************************************** BUSQUEDA DE PRODUCTOS *************************/
 
-function busquedaProducto(arrayProductos) {
+function busquedaProducto(arrayProductos, carrito, contenedorProductos) {
 
 
 
     let input = document.getElementById("inputBusqueda")
     let boton = document.getElementById("botonBusqueda")
-    boton.addEventListener("click", () => buscarPorLupa(arrayProductos))
+    boton.addEventListener("click", () => buscarPorLupa(arrayProductos, carrito, contenedorProductos))
 
 
     /* ***** BUSQUEDA CON LA TECLA ENTER *************************/
@@ -240,34 +228,34 @@ function busquedaProducto(arrayProductos) {
 
             let productosFiltrados = arrayProductos.filter(producto => producto.nombre.toLowerCase().includes(input.value.toLowerCase()))
             if (productosFiltrados.length >= 1) {
-                filtrarYMostrar(arrayProductos, input.value)
+                filtrarYMostrar(arrayProductos, input.value, carrito, contenedorProductos)
                 //console.log("hay prodd");
 
             } else {
 
-                productoNoEncontrado(arrayProductos)
+                productoNoEncontrado(arrayProductos, carrito, contenedorProductos)
             }
 
 
         }
     })
 }
-function buscarPorLupa(arrayProductos) {
+function buscarPorLupa(arrayProductos, carrito, contenedorProductos) {
 
     let input = document.getElementById("inputBusqueda")
     let productosFiltrados = arrayProductos.filter(producto => producto.nombre.toLowerCase().includes(input.value.toLowerCase()))
     if (productosFiltrados.length >= 1) {
 
-        filtrarYMostrar(arrayProductos, input.value)
+        filtrarYMostrar(arrayProductos, input.value, carrito, contenedorProductos)
     } else {
-        productoNoEncontrado(arrayProductos)
+        productoNoEncontrado(arrayProductos, carrito, contenedorProductos)
 
     }
 }
 
-function filtrarYMostrar(arrayProductos, valorFiltro) {
+function filtrarYMostrar(arrayProductos, valorFiltro, carrito, contenedorProductos) {
     let productosFiltrados = arrayProductos.filter(producto => producto.nombre.toLowerCase().includes(valorFiltro.toLowerCase()))
-    creacionTarjetaProductos(productosFiltrados)
+    creacionTarjetaProductos(productosFiltrados, carrito, contenedorProductos)
 
 
 
@@ -278,9 +266,9 @@ function filtrarYMostrar(arrayProductos, valorFiltro) {
 
 /* ************************************************** PRODUCTO NO ENCONTRADO *************************/
 
-function productoNoEncontrado(arrayProductos) {
+function productoNoEncontrado(arrayProductos, carrito, contenedorProductos) {
 
-    let contenedorProductos = document.getElementById("contenedorProductos")
+    //let contenedorProductos = document.getElementById("contenedorProductos")
     let PaginaNoEncontrada = document.getElementById("PaginaNoEncontrada")
 
     contenedorProductos.classList.add("oculto")
@@ -303,7 +291,7 @@ function productoNoEncontrado(arrayProductos) {
 
     let botonProductoNoEncontrado = document.getElementById("botonProductoNoEncontrado")
 
-    botonProductoNoEncontrado.addEventListener("click", () => creacionTarjetaProductos(arrayProductos))
+    botonProductoNoEncontrado.addEventListener("click", () => creacionTarjetaProductos(arrayProductos, carrito, contenedorProductos))
 
 }
 
@@ -315,23 +303,33 @@ function productoNoEncontrado(arrayProductos) {
 
 
 
-function creacionTarjetaProductosPorCategorias(id, arrayProductos) {
+function creacionTarjetaProductosPorCategorias(id, arrayProductos, carrito, contenedorProductos) {
     //let opcion = e.target.value
     let elementosFiltrados = arrayProductos.filter(producto => producto.categoria === id)
     //console.log(e.target.value)
     if (id === "TODOS") {
-        creacionTarjetaProductos(arrayProductos)
+        creacionTarjetaProductos(arrayProductos, carrito, contenedorProductos)
 
     } else {
 
-        creacionTarjetaProductos(elementosFiltrados)
+        creacionTarjetaProductos(elementosFiltrados, carrito, contenedorProductos)
     }
 
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
+function alertaProductoAgregado(){
 
-/*************************************************** CARRITO DE COMPRAS ********************** */
+    Toastify({
+        text: "Producto agregado exitosamente",
+        className: "info",
+        duration: 1000,
+        style: {
+          background: "black",
+        }
+      }).showToast();
+}
+
 
 
 
