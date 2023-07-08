@@ -14,11 +14,18 @@ function funcionProductos() {
 
 
     ]
-
+    let carrito = []
     let carritoJSON = JSON.parse(localStorage.getItem("carrito"))
-    let carrito = carritoJSON ? carritoJSON : []
 
-    creacionTarjetaProductos(productos, carrito)
+    /* let carrito = carritoJSON ? carritoJSON : [] */
+
+    if(carritoJSON){
+        carrito=carritoJSON
+    }
+
+    let contenedorProductos = document.getElementById("contenedorProductos")
+
+    creacionTarjetaProductos(productos, carrito, contenedorProductos)
     creacionFiltrosCategorias(productos)
     busquedaProducto(productos)
 
@@ -29,29 +36,87 @@ function funcionProductos() {
 function finalizarCompra(carrito) {
     let carritoFisico = document.getElementById("pantallaCarrito")
     carritoFisico.innerHTML = ""
-    localStorage.removeItem("carrito")
-    carrito = []
-    renderizarCarrito([])
+    localStorage.clear()
+    carrito.splice(0,carrito.length) // Para que se borre el carrito cuandi finalice la compra
+    renderizarCarrito(carrito)
   }
 
 
   function renderizarCarrito(carritoJSON) {
     let carritoFisico = document.getElementById("pantallaCarrito")
+    carritoFisico.innerHTML=""
     
   
     carritoJSON.forEach(({ nombre, precioUnitario, unidades, subtotal, linkImagen }) => {
       let elementoDelCarrito = document.createElement("div")
       elementoDelCarrito.classList.add("elementoDelCarrito")
-      elementoDelCarrito.innerHTML = `
-      <img class="imagenesCatalogo" src="./imagenes/${linkImagen}"</img>
-        <p>${nombre}</p>
-        <p>${precioUnitario}</p>
-        <p>${unidades}</p>
-        <p>${subtotal}</p>
+      elementoDelCarrito.innerHTML += `
+       
+        <img class="imagenesCatalogo" src="./imagenes/${linkImagen}"</img>
+        <div class="descripcionProductosCarrito">
+            <p>${nombre}</p>
+            <p>Cantidad: ${unidades} und</p>
+            <p>Precio Unitario:  $ ${precioUnitario}</p>
+            <p>Total: $ ${subtotal}</p>
+        </div>
+        
       `
       carritoFisico.appendChild(elementoDelCarrito)
+
+      elementoDelCarrito.classList.add("contenedorProductos")
+    
     })
   }
+
+
+
+  function agregarAlCarrito(e, arrayProductos, carrito) {
+    
+
+    let idProducto = e.target.id
+    //console.log(e.target.id)
+    let productoSeleccionado = arrayProductos.find((producto => producto.id === Number(idProducto)))
+    let posicionProductoEnCarrito = carrito.findIndex(producto => producto.id === Number(idProducto))
+
+    //console.log(productoSeleccionado)
+
+    if (posicionProductoEnCarrito !== -1) {
+        carrito[posicionProductoEnCarrito].unidades++
+        carrito[posicionProductoEnCarrito].subtotal = carrito[posicionProductoEnCarrito].unidades * carrito[posicionProductoEnCarrito].precioUnitario
+
+    } else {
+        carrito.push({
+            id: productoSeleccionado.id,
+            nombre: productoSeleccionado.nombre,
+            //cantidad: productoSeleccionado.cantidad,
+            precioUnitario: productoSeleccionado.precioUnitario,
+            unidades: 1,
+            subtotal: productoSeleccionado.precioUnitario,
+            linkImagen: productoSeleccionado.linkImagen
+        })
+    }
+
+    localStorage.setItem("carrito", JSON.stringify(carrito))
+    renderizarCarrito(carrito)
+
+
+   
+
+}
+
+
+
+let botonCarrito = document.getElementById("iconoCarrito")
+botonCarrito.addEventListener("click", mostrarOcultar)
+
+
+function mostrarOcultar() {
+    let padreContenedor = document.getElementById("contenedorProductos")
+    let carrito = document.getElementById("contenedorCarrito")
+    padreContenedor.classList.toggle("oculto")
+    carrito.classList.toggle("oculto")
+}
+
 
 /*************************************************** CREACION BOTONES FILTROS ********************** */
 
@@ -92,8 +157,8 @@ function creacionFiltrosCategorias(arrayProductos) {
 
 
 
-function creacionTarjetaProductos(arrayProductos, carrito) {
-    let contenedorProductos = document.getElementById("contenedorProductos")
+function creacionTarjetaProductos(arrayProductos, carrito, contenedorProductos) {
+    
     let PaginaNoEncontrada = document.getElementById("PaginaNoEncontrada")
     //let pantallaCarrito = document.getElementById("pantallaCarrito")
     contenedorProductos.innerHTML = ""
@@ -111,15 +176,16 @@ function creacionTarjetaProductos(arrayProductos, carrito) {
         <div class="productos__containerBoton"><button id=${cadaProducto.id}>Agregar</button></div>`
         contenedorProductos.appendChild(elementoCreado)
 
-
-
         // Agrego clases
         contenedorProductos.classList.add("contenedorProductos")
         elementoCreado.classList.add("contenedorCadaProducto")
         //elementoCreado.img.classList.add("imagenesCatalogo")
 
 
-        let botonAgregarAlCarrito = document.getElementById(contenedorProductos.id)
+    })
+    arrayProductos.forEach(producto => {
+
+        let botonAgregarAlCarrito = document.getElementById(producto.id)
         botonAgregarAlCarrito.addEventListener("click", (e) => agregarAlCarrito(e, arrayProductos, carrito))
     })
 }
@@ -127,51 +193,7 @@ function creacionTarjetaProductos(arrayProductos, carrito) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-function agregarAlCarrito(e, arrayProductos, carrito) {
-    
 
-    let idProducto = e.target.id
-    //console.log(e.target.id)
-    let productoSeleccionado = arrayProductos.find((producto => producto.id === Number(idProducto)))
-    let posicionProductoEnCarrito = carrito.findIndex(producto => producto.id === Number(idProducto))
-
-    //console.log(productoSeleccionado)
-
-    if (posicionProductoEnCarrito !== -1) {
-        carrito[posicionProductoEnCarrito].unidades++
-        carrito[posicionProductoEnCarrito].subtotal = carrito[posicionProductoEnCarrito].unidades * carrito[posicionProductoEnCarrito].precioUnitario
-
-    } else {
-        carrito.push({
-            nombre: productoSeleccionado.nombre,
-            //cantidad: productoSeleccionado.cantidad,
-            precioUnitario: productoSeleccionado.precioUnitario,
-            unidades: 1,
-            subtotal: productoSeleccionado.precio,
-            linkImagen: productoSeleccionado.linkImagen
-        })
-    }
-
-    localStorage.setItem("carrito", JSON.stringify(carrito))
-    renderizarCarrito(carrito)
-
-
-   
-
-}
-
-
-
-let botonCarrito = document.getElementById("iconoCarrito")
-botonCarrito.addEventListener("click", mostrarOcultar)
-
-
-function mostrarOcultar() {
-    let padreContenedor = document.getElementById("contenedorProductos")
-    let carrito = document.getElementById("pantallaCarrito")
-    padreContenedor.classList.toggle("oculto")
-    carrito.classList.toggle("oculto")
-}
 
 /* function mostrarCarrito(arrayCarritoCompras) {
 

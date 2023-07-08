@@ -57,14 +57,15 @@
 .desktopCabecera .desktopCabecera__buscarContenedor {
     padding-left: 100px;
 }
-#botonBusqueda{
+
+#botonBusqueda {
     background-color: transparent;
     border: none;
     color: white;
     font-size: 20px;
     padding-left: 10px;
     cursor: pointer;
-    
+
 }
 
 .desktopCabecera .desktopCabecera__buscarContenedor .desktopCabecera__buscar {
@@ -114,8 +115,9 @@
     justify-content: space-evenly;
     padding: 50px 0px 40px 10px;
     margin: auto;
-}   
-.contenedorProductosFiltrados{
+}
+
+.contenedorProductosFiltrados {
     display: flex;
     flex-direction: column;
 }
@@ -155,7 +157,7 @@
     margin: auto;
 }
 
-.productos__containerBoton{
+.productos__containerBoton {
     margin: auto;
 }
 
@@ -171,11 +173,13 @@
     text-transform: uppercase;
     font-family: 'Barlow Condensed', sans-serif;
     border-color: orangered;
-    
+
 }
-.contenedorCadaProducto button:hover{
+
+.contenedorCadaProducto button:hover {
     opacity: .8;
 }
+
 .imagenesCatalogo {
     width: 200px;
     margin: auto;
@@ -184,18 +188,20 @@
 
 /* Barra izquierda */
 
-.menuFiltrado_container{
+.menuFiltrado_container {
     padding: 25px 50px;
     display: flex;
     flex-direction: column;
     line-height: 100px;
-    
-    
+
+
 }
-.menuFiltrado_opciones{
+
+.menuFiltrado_opciones {
     cursor: pointer;
 }
-.categoriasFiltrado{
+
+.categoriasFiltrado {
     background-color: transparent;
     border: none;
     font-size: 18px;
@@ -203,7 +209,8 @@
     padding-top: 20px;
     text-align: left;
 }
-.categoriasFiltrado:hover{
+
+.categoriasFiltrado:hover {
     opacity: .7;
 }
 
@@ -215,12 +222,14 @@
     padding: 0;
     height: fit-content;
     text-align: center;
-    
-    
+
+
 }
-.contenedorPaginaNoEncontrada img{
+
+.contenedorPaginaNoEncontrada img {
     width: 400px;
 }
+
 .contenedorPaginaNoEncontrada button {
     font-size: 20px;
     padding: 16px;
@@ -235,11 +244,13 @@
     width: 100px;
     margin: auto;
     margin-top: 20px;
-    
+
 }
-.contenedorPaginaNoEncontrada button:hover{
+
+.contenedorPaginaNoEncontrada button:hover {
     opacity: .8;
 }
+
 .contenedorPaginaNoEncontrada h2 {
     font-size: 25px;
     margin: 0;
@@ -249,26 +260,36 @@
 
 
 
-.pantallaCarritoClass{
+.pantallaCarritoClass {
     z-index: 100;
     width: 500px;
     height: fit-content;
-    margin-left: 50%;
+    margin-left: 40%;
     text-align: center;
     position: absolute;
     background-color: yellow;
     display: flex;
     flex-direction: column;
 }
-.pantallaCarrito div{
+
+.pantallaCarrito div {
     margin: auto;
-    
+
 }
-.oculto{
+
+.oculto {
     display: none;
 }
-.elementoDelCarrito, #encabezadoCarrito {
+
+.elementoDelCarrito,
+#encabezadoCarrito {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+}
+
+.descripcionProductosCarrito {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
