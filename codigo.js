@@ -1,9 +1,6 @@
 
 funcionProductos()
-//creacionTarjetaProductos(funcionProductos())
 
-
-//abrirCarrito()
 
 function funcionProductos() {
     let productos = [
@@ -17,16 +14,44 @@ function funcionProductos() {
 
 
     ]
-    
-    creacionTarjetaProductos(productos)
+
+    let carritoJSON = JSON.parse(localStorage.getItem("carrito"))
+    let carrito = carritoJSON ? carritoJSON : []
+
+    creacionTarjetaProductos(productos, carrito)
     creacionFiltrosCategorias(productos)
     busquedaProducto(productos)
+
+    let botonFinalizarCompra = document.getElementById("finalizarCompra")
+    botonFinalizarCompra.addEventListener("click", () => finalizarCompra(carrito))
 }
 
+function finalizarCompra(carrito) {
+    let carritoFisico = document.getElementById("pantallaCarrito")
+    carritoFisico.innerHTML = ""
+    localStorage.removeItem("carrito")
+    carrito = []
+    renderizarCarrito([])
+  }
 
 
-
-
+  function renderizarCarrito(carritoJSON) {
+    let carritoFisico = document.getElementById("pantallaCarrito")
+    
+  
+    carritoJSON.forEach(({ nombre, precioUnitario, unidades, subtotal, linkImagen }) => {
+      let elementoDelCarrito = document.createElement("div")
+      elementoDelCarrito.classList.add("elementoDelCarrito")
+      elementoDelCarrito.innerHTML = `
+      <img class="imagenesCatalogo" src="./imagenes/${linkImagen}"</img>
+        <p>${nombre}</p>
+        <p>${precioUnitario}</p>
+        <p>${unidades}</p>
+        <p>${subtotal}</p>
+      `
+      carritoFisico.appendChild(elementoDelCarrito)
+    })
+  }
 
 /*************************************************** CREACION BOTONES FILTROS ********************** */
 
@@ -67,10 +92,10 @@ function creacionFiltrosCategorias(arrayProductos) {
 
 
 
-function creacionTarjetaProductos(arrayProductos) {
+function creacionTarjetaProductos(arrayProductos, carrito) {
     let contenedorProductos = document.getElementById("contenedorProductos")
     let PaginaNoEncontrada = document.getElementById("PaginaNoEncontrada")
-    let pantallaCarrito = document.getElementById("pantallaCarrito")
+    //let pantallaCarrito = document.getElementById("pantallaCarrito")
     contenedorProductos.innerHTML = ""
 
     PaginaNoEncontrada.classList.add("oculto")
@@ -93,14 +118,84 @@ function creacionTarjetaProductos(arrayProductos) {
         elementoCreado.classList.add("contenedorCadaProducto")
         //elementoCreado.img.classList.add("imagenesCatalogo")
 
-        
+
+        let botonAgregarAlCarrito = document.getElementById(contenedorProductos.id)
+        botonAgregarAlCarrito.addEventListener("click", (e) => agregarAlCarrito(e, arrayProductos, carrito))
     })
-    let botonAgregarAlCarrito = document.getElementById( contenedorProductos.id)
-    botonAgregarAlCarrito.addEventListener("click", (e) => carritoCompras(e, arrayProductos))
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+function agregarAlCarrito(e, arrayProductos, carrito) {
+    
+
+    let idProducto = e.target.id
+    //console.log(e.target.id)
+    let productoSeleccionado = arrayProductos.find((producto => producto.id === Number(idProducto)))
+    let posicionProductoEnCarrito = carrito.findIndex(producto => producto.id === Number(idProducto))
+
+    //console.log(productoSeleccionado)
+
+    if (posicionProductoEnCarrito !== -1) {
+        carrito[posicionProductoEnCarrito].unidades++
+        carrito[posicionProductoEnCarrito].subtotal = carrito[posicionProductoEnCarrito].unidades * carrito[posicionProductoEnCarrito].precioUnitario
+
+    } else {
+        carrito.push({
+            nombre: productoSeleccionado.nombre,
+            //cantidad: productoSeleccionado.cantidad,
+            precioUnitario: productoSeleccionado.precioUnitario,
+            unidades: 1,
+            subtotal: productoSeleccionado.precio,
+            linkImagen: productoSeleccionado.linkImagen
+        })
+    }
+
+    localStorage.setItem("carrito", JSON.stringify(carrito))
+    renderizarCarrito(carrito)
+
+
+   
+
+}
+
+
+
+let botonCarrito = document.getElementById("iconoCarrito")
+botonCarrito.addEventListener("click", mostrarOcultar)
+
+
+function mostrarOcultar() {
+    let padreContenedor = document.getElementById("contenedorProductos")
+    let carrito = document.getElementById("pantallaCarrito")
+    padreContenedor.classList.toggle("oculto")
+    carrito.classList.toggle("oculto")
+}
+
+/* function mostrarCarrito(arrayCarritoCompras) {
+
+    //let iconoCarrito = document.getElementById("pantallaCarrito")
+    let patallaDelCarrito = document.getElementById("pantallaCarrito")
+
+    arrayCarritoCompras.forEach(producto => {
+        patallaDelCarrito.innerHTML += `<h2>${producto.nombre}</h2>
+        <h3>${producto.precioUnitario}</h3>
+        <img class="imagenesCatalogo" src="./imagenes/${producto.linkImagen}"</img>`
+    })
+
+    /* let contenedorPantallaCarrito = document.createElement("div")
+
+    iconoCarrito.classList.remove("oculto")
+    iconoCarrito.classList.add("iconoCarrito") */
+
+
+
+    /* contenedorPantallaCarrito.innerHTML = `<h1>Bienvenido al carrito</h1>
+    
+    `
+    patallaDelCarrito.appendChild(contenedorPantallaCarrito)
+} */
 
 
 /* ************************************************** BUSQUEDA DE PRODUCTOS *************************/
@@ -111,7 +206,7 @@ function busquedaProducto(arrayProductos) {
 
     let input = document.getElementById("inputBusqueda")
     let boton = document.getElementById("botonBusqueda")
-    boton.addEventListener("click", () => buscarPorLupa (arrayProductos))
+    boton.addEventListener("click", () => buscarPorLupa(arrayProductos))
 
 
     /* ***** BUSQUEDA CON LA TECLA ENTER *************************/
@@ -136,7 +231,7 @@ function busquedaProducto(arrayProductos) {
     })
 }
 function buscarPorLupa(arrayProductos) {
-    
+
     let input = document.getElementById("inputBusqueda")
     let productosFiltrados = arrayProductos.filter(producto => producto.nombre.toLowerCase().includes(input.value.toLowerCase()))
     if (productosFiltrados.length >= 1) {
@@ -216,62 +311,6 @@ function creacionTarjetaProductosPorCategorias(id, arrayProductos) {
 
 /*************************************************** CARRITO DE COMPRAS ********************** */
 
-function carritoCompras(e, arrayProductos) {
-    let carritoCompras = []
-    
-    //let carritoComprasJSON= localStorage.setItem('carritoJson', JSON.stringify(carritoCompras))
 
-    //let carritoJSON= JSON.parse(localStorage.getItem("carritoCompras"))
 
-   /*  if(carritoJSON){
-        carritoCompras=carritoJSON
-    } */
 
-    let idProducto = e.target.id
-    //console.log(e.target.id)
-    let productoSeleccionado = arrayProductos.find((producto => producto.id === Number(idProducto)))
-
-    //console.log(productoSeleccionado)
-
-    carritoCompras.push({
-        nombre: productoSeleccionado.nombre,
-        cantidad: productoSeleccionado.cantidad,
-        precioUnitario: productoSeleccionado.precioUnitario,
-        linkImagen: productoSeleccionado.linkImagen
-    })
-    
-
-    let iconoCarrito = document.getElementById("iconoCarrito")
-    iconoCarrito.addEventListener("click",()=> mostrarCarrito (carritoCompras))
-    //localStorage.setItem("carritoCompras", JSON.stringify(carritoCompras))
-    //console.log("abrirCArrito")
-
-}
-
-function abrirCarrito() {
-    
-}
-
-function mostrarCarrito(arrayCarritoCompras) {
-    
-    //let iconoCarrito = document.getElementById("pantallaCarrito")
-    let patallaDelCarrito = document.getElementById("pantallaCarrito")
-
-    arrayCarritoCompras.forEach(producto => {
-        patallaDelCarrito.innerHTML+= `<h2>${producto.nombre}</h2>
-        <h3>${producto.precioUnitario}</h3>
-        <img class="imagenesCatalogo" src="./imagenes/${producto.linkImagen}"</img>`
-    })
-    
-    /* let contenedorPantallaCarrito = document.createElement("div")
-
-    iconoCarrito.classList.remove("oculto")
-    iconoCarrito.classList.add("iconoCarrito") */
-
-    
-
-    /* contenedorPantallaCarrito.innerHTML = `<h1>Bienvenido al carrito</h1>
-    
-    `
-    patallaDelCarrito.appendChild(contenedorPantallaCarrito) */
-}

@@ -247,14 +247,12 @@
     padding-top: 20px;
 }
 
-.oculto{
-    display: none;
-}
 
-.pantallaCarrito{
+
+.pantallaCarritoClass{
     z-index: 100;
-    
-    height: 500px;
+    width: 500px;
+    height: fit-content;
     margin-left: 50%;
     text-align: center;
     position: absolute;
@@ -266,3 +264,11 @@
     margin: auto;
     
 }
+.oculto{
+    display: none;
+}
+.elementoDelCarrito, #encabezadoCarrito {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
