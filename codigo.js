@@ -19,8 +19,8 @@ function funcionProductos() {
 
     /* let carrito = carritoJSON ? carritoJSON : [] */
 
-    if(carritoJSON){
-        carrito=carritoJSON
+    if (carritoJSON) {
+        carrito = carritoJSON
     }
 
     let contenedorProductos = document.getElementById("contenedorProductos")
@@ -40,51 +40,82 @@ function finalizarCompra(carrito) {
     let carritoFisico = document.getElementById("pantallaCarrito")
     carritoFisico.innerHTML = ""
     localStorage.clear()
-    carrito.splice(0,carrito.length) // Para que se borre el carrito cuandi finalice la compra
+    carrito.splice(0, carrito.length) // Para que se borre el carrito cuandi finalice la compra
     renderizarCarrito(carrito)
-  }
+}
 
-  function finalizarProyecto(){
+function finalizarProyecto() {
     let carritoFisico = document.getElementById("contenedorCarrito")
-    let botonFinalizarCompra= document.getElementById("finalizarCompra")
-    carritoFisico.innerHTML= `<h1>Gracias por su compra </h1>`
+    let botonFinalizarCompra = document.getElementById("finalizarCompra")
+    carritoFisico.innerHTML = `<h1>Gracias por su compra </h1>`
     botonFinalizarCompra.classList.add("oculto")
 
-  }
+}
 
-  function renderizarCarrito(carritoJSON) {
+function renderizarCarrito(carritoJSON) {
     let carritoFisico = document.getElementById("pantallaCarrito")
-    carritoFisico.innerHTML=""
-    
-    carritoFisico.innerHTML= `<h1>Su carrito contiene los siguientes productos </h1>`
-    
-    carritoJSON.forEach(({ nombre, precioUnitario, unidades, subtotal, linkImagen }) => {
-      let elementoDelCarrito = document.createElement("div")
-      elementoDelCarrito.classList.add("elementoDelCarrito")
-      elementoDelCarrito.innerHTML += `
+    carritoFisico.innerHTML = ""
+
+    carritoFisico.innerHTML = `<h1>Su carrito contiene los siguientes productos </h1>`
+
+    carritoJSON.forEach(({ nombre, precioUnitario, unidades, subtotal, linkImagen, id }) => {
+        let elementoDelCarrito = document.createElement("div")
+        elementoDelCarrito.classList.add("elementoDelCarrito")
+        elementoDelCarrito.innerHTML += `
        
         <img class="imagenesCatalogo" src="./imagenes/${linkImagen}"</img>
-        <div class="descripcionProductosCarrito">
-            <p>${nombre}</p>
-            <p>Cantidad: ${unidades} und</p>
-            <p>Precio Unitario:  $ ${precioUnitario}</p>
-            <p>Total: $ ${subtotal}</p>
+        <div class="contenedorDescripcionProductosCarrito">
+            <div class="descripcionProductosCarrito">
+                <p>${nombre}</p>
+                <p>Cantidad: ${unidades} und</p>
+                <p>Precio Unitario:  $ ${precioUnitario}</p>
+                <p>Total: $ ${subtotal}</p>
+            </div>
+
+            <div class="contenedorEliminarProductosCarrito"> 
+                <i class="fa-solid fa-xmark X" id="${id}"></i>
+            </div>
         </div>
         
+        
       `
-      carritoFisico.appendChild(elementoDelCarrito)
+        carritoFisico.appendChild(elementoDelCarrito)
 
-      elementoDelCarrito.classList.add("contenedorProductos")
-    
+        elementoDelCarrito.classList.add("contenedorProductos")
+
+        let idElementoAEliminar= document.getElementById(`${id}`)
+        idElementoAEliminar.addEventListener("click", (e) => eliminarProductoDelCarrito(carritoJSON, e ))
+
     })
-    let botonFinalizarCompra= document.getElementById("finalizarCompra")
+    let botonFinalizarCompra = document.getElementById("finalizarCompra")
     botonFinalizarCompra.addEventListener("click", finalizarProyecto)
-  }
 
-
-
-  function agregarAlCarrito(e, arrayProductos, carrito) {
+    //let botonEliminarProducto = document.querySelector(".X")
     
+    
+
+
+
+}
+
+function eliminarProductoDelCarrito(carrito, e) {
+    let idProducto = e.target.id
+   // console.log(idProducto)
+    //console.log(carrito)
+    //let productoAEliminarEncontrado= carrito.find(elementoEnCarrito =>  elementoEnCarrito.id ===idProducto)
+    
+    let productoAEliminarEncontrado= carrito.findIndex(producto => producto.id === Number(idProducto))
+
+    if (productoAEliminarEncontrado !== -1) {
+        carrito.splice(productoAEliminarEncontrado, 1)
+        localStorage.setItem('carrito', JSON.stringify(carrito)) // Para que se actualice el localStorage sin los elementos eliminados
+    }
+
+    renderizarCarrito(carrito)
+}
+
+function agregarAlCarrito(e, arrayProductos, carrito) {
+
 
     let idProducto = e.target.id
     //console.log(e.target.id)
@@ -113,7 +144,7 @@ function finalizarCompra(carrito) {
     renderizarCarrito(carrito)
 
 
-   
+
 
 }
 
@@ -171,7 +202,7 @@ function creacionFiltrosCategorias(arrayProductos, carrito, contenedorProductos)
 
 
 function creacionTarjetaProductos(arrayProductos, carrito, contenedorProductos) {
-    
+
     let PaginaNoEncontrada = document.getElementById("PaginaNoEncontrada")
     //let pantallaCarrito = document.getElementById("pantallaCarrito")
     contenedorProductos.innerHTML = ""
@@ -194,7 +225,7 @@ function creacionTarjetaProductos(arrayProductos, carrito, contenedorProductos) 
         elementoCreado.classList.add("contenedorCadaProducto")
         //elementoCreado.img.classList.add("imagenesCatalogo")
 
-        
+
     })
     arrayProductos.forEach(producto => {
 
@@ -202,7 +233,7 @@ function creacionTarjetaProductos(arrayProductos, carrito, contenedorProductos) 
         botonAgregarAlCarrito.addEventListener("click", (e) => agregarAlCarrito(e, arrayProductos, carrito))
         botonAgregarAlCarrito.addEventListener("click", alertaProductoAgregado)
     })
-    
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -318,16 +349,16 @@ function creacionTarjetaProductosPorCategorias(id, arrayProductos, carrito, cont
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-function alertaProductoAgregado(){
+function alertaProductoAgregado() {
 
     Toastify({
         text: "Producto agregado exitosamente",
         className: "info",
         duration: 1000,
         style: {
-          background: "black",
+            background: "black",
         }
-      }).showToast();
+    }).showToast();
 }
 
 

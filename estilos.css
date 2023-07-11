@@ -314,3 +314,14 @@
     margin: auto;
     margin-top: 20px;
 }
+
+
+.contenedorDescripcionProductosCarrito{
+    display: flex;
+}
+.contenedorEliminarProductosCarrito{
+    margin: auto;
+    padding-left: 30px;
+    font-size: 25px;
+    cursor: pointer;
+}
