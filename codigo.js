@@ -5,7 +5,7 @@ funcionProductos()
 function funcionProductos() {
     let productos = [
 
-        { id: 10, nombre: "Galleta Oreo", categoria: "DULCES", precioUnitario: 5.00, linkImagen: "oreoVainilla.png" },
+        { id: 10, nombre: "Galleta Oreo", categoria: "DULCES", precioUnitario: 5.00, linkImagen: "oreoVainilla (2).png" },
         { id: 15, nombre: "Bombones", categoria: "DULCES", precioUnitario: 8.00, linkImagen: "bombonesRellenos.png" },
         { id: 20, nombre: "Doritos salados", categoria: "SALADOS", precioUnitario: 4.00, linkImagen: "doritos.png" },
         { id: 25, nombre: "Inka Chips salados", categoria: "SALADOS", precioUnitario: 2.50, linkImagen: "inkaChips.png" },
@@ -23,6 +23,7 @@ function funcionProductos() {
         carrito = carritoJSON
     }
 
+    renderizarCarrito(carrito) // Para que me aparezca el carrito con lo que tiene almacenado
     let contenedorProductos = document.getElementById("contenedorProductos")
 
     creacionTarjetaProductos(productos, carrito, contenedorProductos)
@@ -56,7 +57,7 @@ function renderizarCarrito(carritoJSON) {
     let carritoFisico = document.getElementById("pantallaCarrito")
     carritoFisico.innerHTML = ""
 
-    carritoFisico.innerHTML = `<h1>Su carrito contiene los siguientes productos </h1>`
+    carritoFisico.innerHTML = `<h1 class="pantallaCarritoTitulo">Su carrito contiene los siguientes productos </h1>`
 
     carritoJSON.forEach(({ nombre, precioUnitario, unidades, subtotal, linkImagen, id }) => {
         let elementoDelCarrito = document.createElement("div")
@@ -89,6 +90,9 @@ function renderizarCarrito(carritoJSON) {
     })
     let botonFinalizarCompra = document.getElementById("finalizarCompra")
     botonFinalizarCompra.addEventListener("click", finalizarProyecto)
+
+    let salirDelCarrito = document.getElementById("salirDeCarrito")
+    salirDelCarrito.addEventListener("click", mostrarOcultar)
 
     //let botonEliminarProducto = document.querySelector(".X")
     
@@ -155,9 +159,9 @@ botonCarrito.addEventListener("click", mostrarOcultar)
 
 
 function mostrarOcultar() {
-    let padreContenedor = document.getElementById("contenedorProductos")
+    let padreContenedor = document.getElementById("main__containerId")
     let carrito = document.getElementById("contenedorCarrito")
-    padreContenedor.classList.toggle("oculto")
+    padreContenedor.classList.toggle("cortina")
     carrito.classList.toggle("oculto")
 }
 

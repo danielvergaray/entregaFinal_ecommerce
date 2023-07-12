@@ -34,27 +34,33 @@
                 <button type="button" id="botonBusqueda"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
             <div>
-                <a class="desktopCabecera__carrito" id="iconoCarrito" href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+                <a class="desktopCabecera__carrito" id="iconoCarrito" href="#"><i
+                        class="fa-solid fa-cart-shopping"></i></a>
             </div>
         </div>
     </header>
 
     <main>
-        
+
         <div id="contenedorCarrito" class="pantallaCarritoClass oculto">
 
             <div id="pantallaCarrito"></div>
-            <button id="finalizarCompra" class="botonFinalizarCompra">FINALIZAR COMPRA</button>
+            <div class="botonFinalizarCompra__contenedor">
+                <button id="finalizarCompra" class="botonFinalizarCompra">FINALIZAR COMPRA</button>
+                <button id="salirDeCarrito" class="botonFinalizarCompra">REGRESAR</button>
+            </div>
         </div>
-        <div class="main__container">
-            
-            <section class="productosContainer__barraIzquierda" id="opcionesFiltrado">
+        <div id="main__containerId" class="main__container">
+            <div>
+
+            </div>
+            <section class="productosContainer__barraIzquierda " id="opcionesFiltrado">
                 <h2>Categoria</h2>
                 <div id="contenedorFiltrosCategorias" class="menuFiltrado_container">
-                    
+
                 </div>
             </section>
-            
+
 
 
             <div id="PaginaNoEncontrada" class="contenedorPaginaNoEncontrada">
