@@ -50,6 +50,7 @@ function finalizarProyecto() {
     let botonFinalizarCompra = document.getElementById("finalizarCompra")
     carritoFisico.innerHTML = `<h1>Gracias por su compra </h1>`
     botonFinalizarCompra.classList.add("oculto")
+    localStorage.clear()
 
 }
 
@@ -91,8 +92,8 @@ function renderizarCarrito(carritoJSON) {
     let botonFinalizarCompra = document.getElementById("finalizarCompra")
     botonFinalizarCompra.addEventListener("click", finalizarProyecto)
 
-    let salirDelCarrito = document.getElementById("salirDeCarrito")
-    salirDelCarrito.addEventListener("click", mostrarOcultar)
+    /* let salirDelCarrito = document.getElementById("salirDeCarrito")
+    salirDelCarrito.addEventListener("click", mostrarOcultar) */
 
     //let botonEliminarProducto = document.querySelector(".X")
     
