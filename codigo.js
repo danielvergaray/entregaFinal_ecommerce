@@ -23,7 +23,7 @@ function funcionProductos() {
         carrito = carritoJSON
     }
 
-    renderizarCarrito(carrito) // Para que me aparezca el carrito con lo que tiene almacenado
+    renderizarCarrito(productos,carrito) // Para que me aparezca el carrito con lo que tiene almacenado
     let contenedorProductos = document.getElementById("contenedorProductos")
 
     creacionTarjetaProductos(productos, carrito, contenedorProductos)
@@ -59,7 +59,7 @@ function finalizarCompra(arrayProductos, carrito, contenedorProductos) {
 
 function funcionBotonRegresar(arrayProductos, carrito, contenedorProductos){
     
-    
+    console.log("salir")
     let botonRegresar= document.getElementById("salirDeCarrito")
     botonRegresar.addEventListener("click", () => creacionTarjetaProductos(arrayProductos, carrito, contenedorProductos))
     mostrarOcultar()
@@ -68,11 +68,17 @@ function funcionBotonRegresar(arrayProductos, carrito, contenedorProductos){
 
 
 
-function renderizarCarrito(carritoJSON) {
+function renderizarCarrito(arrayProductos, carritoJSON) {
     
     
     let carritoFisico = document.getElementById("pantallaCarrito")
     carritoFisico.innerHTML = ""
+
+    if(carritoJSON.length === 0){
+        carritoFisico.innerHTML = `<h1>El carrito está vacío</h1>`
+        return // Salir de la función si el carrito está vacío 
+    }
+
 
     carritoFisico.innerHTML = `<h1 class="pantallaCarritoTitulo" id="pantallaCarritoTituloId">Su carrito contiene los siguientes productos </h1>`
 
@@ -102,14 +108,15 @@ function renderizarCarrito(carritoJSON) {
         elementoDelCarrito.classList.add("contenedorProductos")
 
         let idElementoAEliminar= document.getElementById(`${id}`)
-        idElementoAEliminar.addEventListener("click", (e) => eliminarProductoDelCarrito(carritoJSON, e ))
+        idElementoAEliminar.addEventListener("click", (e) => eliminarProductoDelCarrito(arrayProductos,carritoJSON, e ))
 
     })
     /* let botonFinalizarCompra = document.getElementById("finalizarCompra")
     botonFinalizarCompra.addEventListener("click", finalizarProyecto) */
 
-    /* let salirDelCarrito = document.getElementById("salirDeCarrito")
-    salirDelCarrito.addEventListener("click", mostrarOcultar) */
+    let contenedorProductos = document.getElementById("contenedorProductos")
+    let salirDelCarrito = document.getElementById("salirDeCarrito")
+    salirDelCarrito.addEventListener("click", () =>funcionBotonRegresar(arrayProductos, carritoJSON, contenedorProductos))
 
     //let botonEliminarProducto = document.querySelector(".X")
     
@@ -119,7 +126,7 @@ function renderizarCarrito(carritoJSON) {
 
 }
 
-function eliminarProductoDelCarrito(carrito, e) {
+function eliminarProductoDelCarrito(arrayProductos, carrito, e) {
     let idProducto = e.target.id
    // console.log(idProducto)
     //console.log(carrito)
@@ -132,7 +139,7 @@ function eliminarProductoDelCarrito(carrito, e) {
         localStorage.setItem('carrito', JSON.stringify(carrito)) // Para que se actualice el localStorage sin los elementos eliminados
     }
 
-    renderizarCarrito(carrito)
+    renderizarCarrito(arrayProductos, carrito)
 }
 
 function agregarAlCarrito(e, arrayProductos, carrito) {
@@ -140,7 +147,7 @@ function agregarAlCarrito(e, arrayProductos, carrito) {
     
 
     let idProducto = e.target.id
-    //console.log(e.target.id)
+    console.log(e.target.id)
     let productoSeleccionado = arrayProductos.find((producto => producto.id === Number(idProducto)))
     let posicionProductoEnCarrito = carrito.findIndex(producto => producto.id === Number(idProducto))
 
@@ -163,7 +170,7 @@ function agregarAlCarrito(e, arrayProductos, carrito) {
     }
 
     localStorage.setItem("carrito", JSON.stringify(carrito))
-    renderizarCarrito(carrito)
+    renderizarCarrito(arrayProductos, carrito)
 
 
 
@@ -177,6 +184,12 @@ botonCarrito.addEventListener("click", mostrarOcultar)
 
 
 function mostrarOcultar() {
+    
+    /* if(carritoJSON.length === 0){
+        carritoFisico.innerHTML = `<h1>El carrito está vacío</h1>`
+        return // Salir de la función si el carrito está vacío 
+    } */
+    
     let botonFinalizarCompra = document.getElementById("finalizarCompra")
     let padreContenedor = document.getElementById("main__containerId")
     let carrito = document.getElementById("contenedorCarrito")
