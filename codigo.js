@@ -35,23 +35,19 @@ function funcionProductos() {
 }
 
 function finalizarCompra(carrito) {
-    /* let botonFinalizarCompra= document.getElementById("finalizarCompra")
-    botonFinalizarCompra.addEventListener("click", finalizarProyecto) */
-
     let carritoFisico = document.getElementById("pantallaCarrito")
-    carritoFisico.innerHTML = ""
-    localStorage.clear()
-    carrito.splice(0, carrito.length) // Para que se borre el carrito cuandi finalice la compra
-    renderizarCarrito(carrito)
-}
-
-function finalizarProyecto() {
-    let carritoFisico = document.getElementById("contenedorCarrito")
     let botonFinalizarCompra = document.getElementById("finalizarCompra")
-    carritoFisico.innerHTML = `<h1>Gracias por su compra </h1>`
+    carritoFisico.innerHTML = ""
     botonFinalizarCompra.classList.add("oculto")
     localStorage.clear()
+    carrito.splice(0, carrito.length) // Para que se borre el carrito cuando finalice la compra
+    renderizarCarrito(carrito)
 
+    //let carritoFisico = document.getElementById("contenedorCarrito")
+    
+    
+    
+    //localStorage.clear()
 }
 
 function renderizarCarrito(carritoJSON) {
@@ -89,8 +85,8 @@ function renderizarCarrito(carritoJSON) {
         idElementoAEliminar.addEventListener("click", (e) => eliminarProductoDelCarrito(carritoJSON, e ))
 
     })
-    let botonFinalizarCompra = document.getElementById("finalizarCompra")
-    botonFinalizarCompra.addEventListener("click", finalizarProyecto)
+    /* let botonFinalizarCompra = document.getElementById("finalizarCompra")
+    botonFinalizarCompra.addEventListener("click", finalizarProyecto) */
 
     /* let salirDelCarrito = document.getElementById("salirDeCarrito")
     salirDelCarrito.addEventListener("click", mostrarOcultar) */
