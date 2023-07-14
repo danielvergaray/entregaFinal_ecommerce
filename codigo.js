@@ -46,6 +46,7 @@ function finalizarCompra(arrayProductos, carrito, contenedorProductos) {
     carrito.splice(0, carrito.length) // Para que se borre el carrito cuando finalice la compra
     
     
+    renderizarCarrito(arrayProductos, carrito)
     funcionBotonRegresar(arrayProductos, carrito, contenedorProductos)
 
     
