@@ -23,7 +23,7 @@ function funcionProductos() {
         carrito = carritoJSON
     }
 
-    renderizarCarrito(productos,carrito) // Para que me aparezca el carrito con lo que tiene almacenado
+    renderizarCarrito(productos, carrito) // Para que me aparezca el carrito con lo que tiene almacenado
     let contenedorProductos = document.getElementById("contenedorProductos")
 
     creacionTarjetaProductos(productos, carrito, contenedorProductos)
@@ -44,24 +44,24 @@ function finalizarCompra(arrayProductos, carrito, contenedorProductos) {
     botonFinalizarCompra.classList.add("oculto")
     localStorage.clear()
     carrito.splice(0, carrito.length) // Para que se borre el carrito cuando finalice la compra
-    
-    
+
+
     renderizarCarrito(arrayProductos, carrito)
     funcionBotonRegresar(arrayProductos, carrito, contenedorProductos)
 
-    
+
 
     //let carritoFisico = document.getElementById("contenedorCarrito")
-    
-    
-    
+
+
+
     //localStorage.clear()
 }
 
-function funcionBotonRegresar(arrayProductos, carrito, contenedorProductos){
-    
-    console.log("salir")
-    let botonRegresar= document.getElementById("salirDeCarrito")
+function funcionBotonRegresar(arrayProductos, carrito, contenedorProductos) {
+
+    //console.log("salir")
+    let botonRegresar = document.getElementById("salirDeCarrito")
     botonRegresar.addEventListener("click", () => creacionTarjetaProductos(arrayProductos, carrito, contenedorProductos))
     mostrarOcultar()
 }
@@ -70,18 +70,19 @@ function funcionBotonRegresar(arrayProductos, carrito, contenedorProductos){
 
 
 function renderizarCarrito(arrayProductos, carritoJSON) {
-    
-    
+
+    let total = 0
     let carritoFisico = document.getElementById("pantallaCarrito")
     carritoFisico.innerHTML = ""
 
-    if(carritoJSON.length === 0){
+    if (carritoJSON.length === 0) {
         carritoFisico.innerHTML = `<h1>El carrito está vacío</h1>`
         return // Salir de la función si el carrito está vacío 
     }
 
 
-    carritoFisico.innerHTML = `<h1 class="pantallaCarritoTitulo" id="pantallaCarritoTituloId">Su carrito contiene los siguientes productos </h1>`
+    carritoFisico.innerHTML = `<div class="XParaCerrar"><i class="fa-regular fa-circle-xmark X" id="XParaCerrarId"></i></div>
+    <h1 class="pantallaCarritoTitulo" id="pantallaCarritoTituloId">Su carrito contiene los siguientes productos </h1>`
 
     carritoJSON.forEach(({ nombre, precioUnitario, unidades, subtotal, linkImagen, id }) => {
         let elementoDelCarrito = document.createElement("div")
@@ -104,24 +105,38 @@ function renderizarCarrito(arrayProductos, carritoJSON) {
         
         
       `
+        /* let sumatoriaTotal= document.createElement("div")
+        sumatoriaTotal.innerHTML= `<p>Aqui va el total</p>`
+        carritoFisico.appendChild(sumatoriaTotal) */
+
+
         carritoFisico.appendChild(elementoDelCarrito)
 
         elementoDelCarrito.classList.add("contenedorProductos")
+        total += subtotal
 
-        let idElementoAEliminar= document.getElementById(`${id}`)
-        idElementoAEliminar.addEventListener("click", (e) => eliminarProductoDelCarrito(arrayProductos,carritoJSON, e ))
+        let idElementoAEliminar = document.getElementById(`${id}`)
+        idElementoAEliminar.addEventListener("click", (e) => eliminarProductoDelCarrito(arrayProductos, carritoJSON, e))
 
     })
     /* let botonFinalizarCompra = document.getElementById("finalizarCompra")
     botonFinalizarCompra.addEventListener("click", finalizarProyecto) */
 
+    let sumatoriaTotal = document.createElement("div");
+    sumatoriaTotal.innerHTML = `<p class="textoTotalAPagar">SU cuenta a pagar es: $ ${total}</p>`
+    carritoFisico.appendChild(sumatoriaTotal)
+
+    let botonCerrarCarrito = document.getElementById("XParaCerrarId")
+    botonCerrarCarrito.addEventListener("click", mostrarOcultar)
+
+
     let contenedorProductos = document.getElementById("contenedorProductos")
     let salirDelCarrito = document.getElementById("salirDeCarrito")
-    salirDelCarrito.addEventListener("click", () =>funcionBotonRegresar(arrayProductos, carritoJSON, contenedorProductos))
+    salirDelCarrito.addEventListener("click", () => funcionBotonRegresar(arrayProductos, carritoJSON, contenedorProductos))
 
     //let botonEliminarProducto = document.querySelector(".X")
-    
-    
+
+
 
 
 
@@ -129,11 +144,11 @@ function renderizarCarrito(arrayProductos, carritoJSON) {
 
 function eliminarProductoDelCarrito(arrayProductos, carrito, e) {
     let idProducto = e.target.id
-   // console.log(idProducto)
+    // console.log(idProducto)
     //console.log(carrito)
     //let productoAEliminarEncontrado= carrito.find(elementoEnCarrito =>  elementoEnCarrito.id ===idProducto)
-    
-    let productoAEliminarEncontrado= carrito.findIndex(producto => producto.id === Number(idProducto))
+
+    let productoAEliminarEncontrado = carrito.findIndex(producto => producto.id === Number(idProducto))
 
     if (productoAEliminarEncontrado !== -1) {
         carrito.splice(productoAEliminarEncontrado, 1)
@@ -145,10 +160,10 @@ function eliminarProductoDelCarrito(arrayProductos, carrito, e) {
 
 function agregarAlCarrito(e, arrayProductos, carrito) {
 
-    
+
 
     let idProducto = e.target.id
-    console.log(e.target.id)
+    //console.log(e.target.id)
     let productoSeleccionado = arrayProductos.find((producto => producto.id === Number(idProducto)))
     let posicionProductoEnCarrito = carrito.findIndex(producto => producto.id === Number(idProducto))
 
@@ -185,12 +200,12 @@ botonCarrito.addEventListener("click", mostrarOcultar)
 
 
 function mostrarOcultar() {
-    
+
     /* if(carritoJSON.length === 0){
         carritoFisico.innerHTML = `<h1>El carrito está vacío</h1>`
         return // Salir de la función si el carrito está vacío 
     } */
-    
+
     let botonFinalizarCompra = document.getElementById("finalizarCompra")
     let padreContenedor = document.getElementById("main__containerId")
     let carrito = document.getElementById("contenedorCarrito")
@@ -198,7 +213,7 @@ function mostrarOcultar() {
     carrito.classList.toggle("oculto")
 
     botonFinalizarCompra.classList.remove("oculto")
-    
+
 }
 
 
@@ -249,7 +264,7 @@ function creacionTarjetaProductos(arrayProductos, carrito, contenedorProductos) 
 
     PaginaNoEncontrada.classList.add("oculto")
     contenedorProductos.classList.remove("oculto")
-    
+
     //pantallaCarrito.classList.add("oculto")
 
     arrayProductos.forEach(cadaProducto => {
@@ -411,7 +426,7 @@ function alertaProductoAgregado() {
     }).showToast();
 }
 
-function compraRealizada(){
+function compraRealizada() {
 
     Swal.fire({
         position: 'top-center',
@@ -419,7 +434,7 @@ function compraRealizada(){
         title: 'GRACIAS POR SU COMPRA',
         showConfirmButton: false,
         timer: 1000
-      })
+    })
 }
 
 
