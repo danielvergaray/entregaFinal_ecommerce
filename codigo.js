@@ -43,13 +43,15 @@ function finalizarCompra(arrayProductos, carrito, contenedorProductos) {
     carritoFisico.innerHTML = ""
     botonFinalizarCompra.classList.add("oculto")
     localStorage.clear()
+    
     carrito.splice(0, carrito.length) // Para que se borre el carrito cuando finalice la compra
-
-
+    let cantidadProductosEnCarrito= document.getElementById("productosEnCarritoId")
+    
+    cantidadProductosEnCarrito.textContent = '0'
     renderizarCarrito(arrayProductos, carrito)
     funcionBotonRegresar(arrayProductos, carrito, contenedorProductos)
 
-
+    
 
     //let carritoFisico = document.getElementById("contenedorCarrito")
 
@@ -67,11 +69,10 @@ function funcionBotonRegresar(arrayProductos, carrito, contenedorProductos) {
 }
 
 
-
-
 function renderizarCarrito(arrayProductos, carritoJSON) {
 
     let total = 0
+    let totalProductos= 0
     let carritoFisico = document.getElementById("pantallaCarrito")
     carritoFisico.innerHTML = ""
 
@@ -114,6 +115,7 @@ function renderizarCarrito(arrayProductos, carritoJSON) {
 
         elementoDelCarrito.classList.add("contenedorProductos")
         total += subtotal
+        totalProductos += unidades
 
         let idElementoAEliminar = document.getElementById(`${id}`)
         idElementoAEliminar.addEventListener("click", (e) => eliminarProductoDelCarrito(arrayProductos, carritoJSON, e))
@@ -126,6 +128,14 @@ function renderizarCarrito(arrayProductos, carritoJSON) {
     sumatoriaTotal.innerHTML = `<p class="textoTotalAPagar">SU cuenta a pagar es: $ ${total}</p>`
     carritoFisico.appendChild(sumatoriaTotal)
 
+   
+
+    let cantidadProductosEnCarrito= document.getElementById("productosEnCarritoId")
+    cantidadProductosEnCarrito.textContent= `${totalProductos}`
+
+    
+
+
     let botonCerrarCarrito = document.getElementById("XParaCerrarId")
     botonCerrarCarrito.addEventListener("click", mostrarOcultar)
 
@@ -137,7 +147,7 @@ function renderizarCarrito(arrayProductos, carritoJSON) {
 
     //let botonEliminarProducto = document.querySelector(".X")
 
-
+    
 
 
 
@@ -193,8 +203,6 @@ function agregarAlCarrito(e, arrayProductos, carrito) {
 
 
 }
-
-
 
 let botonCarrito = document.getElementById("iconoCarrito")
 botonCarrito.addEventListener("click", mostrarOcultar)

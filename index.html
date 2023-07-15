@@ -33,9 +33,13 @@
                 <input type="text" class="desktopCabecera__buscar" id="inputBusqueda" placeholder="¿Que deseas buscar?">
                 <button type="button" id="botonBusqueda"><i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
-            <div>
-                <a class="desktopCabecera__carrito" id="iconoCarrito" href="#"><i
-                        class="fa-solid fa-cart-shopping"></i></a>
+            <div class="contenedorCarritoCantidad">
+                <a class="desktopCabecera__carrito" id="iconoCarrito" href="#">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <div class="circuloProductosEnCarrito">
+                        <span class="productosEnCarrito" id="productosEnCarritoId">0</span>
+                    </div>
+                </a>
             </div>
         </div>
     </header>
@@ -46,7 +50,7 @@
 
             <div id="pantallaCarrito"></div>
             <div class="botonFinalizarCompra__contenedor">
-                
+
                 <button id="finalizarCompra" class="botonFinalizarCompra">FINALIZAR COMPRA</button>
                 <button id="salirDeCarrito" class="botonFinalizarCompra">REGRESAR</button>
             </div>
