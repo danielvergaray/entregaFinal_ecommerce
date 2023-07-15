@@ -76,7 +76,7 @@ function renderizarCarrito(arrayProductos, carritoJSON) {
     carritoFisico.innerHTML = ""
 
     if (carritoJSON.length === 0) {
-        carritoFisico.innerHTML = `<h1>El carrito está vacío</h1>`
+        carritoFisico.innerHTML = `<h1 class="tituloCarritoVacio">El carrito está vacío</h1>`
         return // Salir de la función si el carrito está vacío 
     }
 
@@ -122,7 +122,7 @@ function renderizarCarrito(arrayProductos, carritoJSON) {
     /* let botonFinalizarCompra = document.getElementById("finalizarCompra")
     botonFinalizarCompra.addEventListener("click", finalizarProyecto) */
 
-    let sumatoriaTotal = document.createElement("div");
+    let sumatoriaTotal = document.createElement("div")
     sumatoriaTotal.innerHTML = `<p class="textoTotalAPagar">SU cuenta a pagar es: $ ${total}</p>`
     carritoFisico.appendChild(sumatoriaTotal)
 
@@ -132,7 +132,8 @@ function renderizarCarrito(arrayProductos, carritoJSON) {
 
     let contenedorProductos = document.getElementById("contenedorProductos")
     let salirDelCarrito = document.getElementById("salirDeCarrito")
-    salirDelCarrito.addEventListener("click", () => funcionBotonRegresar(arrayProductos, carritoJSON, contenedorProductos))
+    //salirDelCarrito.addEventListener("click", () => funcionBotonRegresar(arrayProductos, carritoJSON, contenedorProductos))
+    salirDelCarrito.addEventListener("click", mostrarOcultar) // Se hace esto y no lo de arriba para que no caiga en bug
 
     //let botonEliminarProducto = document.querySelector(".X")
 
@@ -201,6 +202,8 @@ botonCarrito.addEventListener("click", mostrarOcultar)
 
 function mostrarOcultar() {
 
+
+    
     /* if(carritoJSON.length === 0){
         carritoFisico.innerHTML = `<h1>El carrito está vacío</h1>`
         return // Salir de la función si el carrito está vacío 

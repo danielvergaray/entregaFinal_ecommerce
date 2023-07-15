@@ -364,3 +364,6 @@
     padding-top: 10px;
     cursor: pointer;
 }
+.tituloCarritoVacio{
+    padding-top: 90%;
+}
