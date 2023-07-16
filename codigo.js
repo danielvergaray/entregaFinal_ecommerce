@@ -15,7 +15,7 @@ function funcionProductos() {
 
     ]  */ // Los productos se cargan desde el archivo Json
 
-    let urlProductos= '/productos.json'
+    let urlProductos= './productos.json'
     let productos= []
 
     fetch(urlProductos)
