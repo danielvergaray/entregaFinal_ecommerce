@@ -3,7 +3,7 @@ funcionProductos()
 
 
 function funcionProductos() {
-    let productos = [
+    /* let productos = [
 
         { id: 10, nombre: "Galleta Oreo", categoria: "DULCES", precioUnitario: 5.00, linkImagen: "oreoVainilla (2).png" },
         { id: 15, nombre: "Bombones", categoria: "DULCES", precioUnitario: 8.00, linkImagen: "bombonesRellenos.png" },
@@ -13,25 +13,36 @@ function funcionProductos() {
         { id: 35, nombre: "Nueces peladas", categoria: "SALUDABLES", precioUnitario: 12.50, linkImagen: "nuecesPeladas.png" },
 
 
-    ]
-    let carrito = []
-    let carritoJSON = JSON.parse(localStorage.getItem("carrito"))
+    ]  */ // Los productos se cargan desde el archivo Json
 
-    /* let carrito = carritoJSON ? carritoJSON : [] */
+    let urlProductos= '/productos.json'
+    let productos= []
 
-    if (carritoJSON) {
-        carrito = carritoJSON
-    }
+    fetch(urlProductos)
+        .then(response => response.json())
+        .then(data => {
+            productos = data.productos
 
-    renderizarCarrito(productos, carrito) // Para que me aparezca el carrito con lo que tiene almacenado
-    let contenedorProductos = document.getElementById("contenedorProductos")
+            let carrito = []
+            let carritoJSON = JSON.parse(localStorage.getItem("carrito"))
 
-    creacionTarjetaProductos(productos, carrito, contenedorProductos)
-    creacionFiltrosCategorias(productos, carrito, contenedorProductos)
-    busquedaProducto(productos, carrito, contenedorProductos)
+            if (carritoJSON) {
+                carrito = carritoJSON
+            }
 
-    let botonFinalizarCompra = document.getElementById("finalizarCompra")
-    botonFinalizarCompra.addEventListener("click", () => finalizarCompra(productos, carrito, contenedorProductos))
+            renderizarCarrito(productos, carrito)
+            let contenedorProductos = document.getElementById("contenedorProductos")
+
+            creacionTarjetaProductos(productos, carrito, contenedorProductos)
+            creacionFiltrosCategorias(productos, carrito, contenedorProductos)
+            busquedaProducto(productos, carrito, contenedorProductos)
+
+            let botonFinalizarCompra = document.getElementById("finalizarCompra")
+            botonFinalizarCompra.addEventListener("click", () => finalizarCompra(productos, carrito, contenedorProductos))
+        })
+        .catch(err=> {
+            errorCarga()
+        })
 }
 
 function finalizarCompra(arrayProductos, carrito, contenedorProductos) {
@@ -445,6 +456,18 @@ function compraRealizada() {
         title: 'GRACIAS POR SU COMPRA',
         showConfirmButton: false,
         timer: 1000
+    })
+}
+
+function errorCarga() {
+
+    Swal.fire({
+        position: 'top-center',
+        icon: 'error',
+        title: 'Pagina no encontrada',
+        text: 'Por favor, recargar pagina',
+        showConfirmButton: false,
+        timer: 7000
     })
 }
 
