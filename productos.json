@@ -2,7 +2,7 @@
 
     "productos" : [
     
-        { "id": 10, "nombre": "Galleta Oreo", "categoria": "DULCES", "precioUnitario": 5.00, "linkImagen": "oreoVainilla (2).png" },
+        { "id": 10, "nombre": "Galleta Oreo", "categoria": "DULCES", "precioUnitario": 5.00, "linkImagen": "oreoVainilla.png" },
         { "id": 15, "nombre": "Bombones", "categoria": "DULCES", "precioUnitario": 8.00, "linkImagen": "bombonesRellenos.png" },
         { "id": 20, "nombre": "Papas Picantes", "categoria": "SALADOS", "precioUnitario": 4.00, "linkImagen": "papas.png" },
         { "id": 25, "nombre": "Inka Chips salados", "categoria": "SALADOS", "precioUnitario": 2.50, "linkImagen": "inkaChips.png" },
