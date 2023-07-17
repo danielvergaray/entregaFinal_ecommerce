@@ -46,21 +46,30 @@ function funcionProductos() {
 }
 
 function finalizarCompra(arrayProductos, carrito, contenedorProductos) {
-    compraRealizada()
-    let carritoFisico = document.getElementById("pantallaCarrito")
-    let botonFinalizarCompra = document.getElementById("finalizarCompra")
-    //botonFinalizarCompra.addEventListener("click", compraRealizada)
-    //carritoFisico.innerHTML =  `<h1>Gracias por su compra </h1>`
-    carritoFisico.innerHTML = ""
-    botonFinalizarCompra.classList.add("oculto")
-    localStorage.clear()
     
-    carrito.splice(0, carrito.length) // Para que se borre el carrito cuando finalice la compra
-    let cantidadProductosEnCarrito= document.getElementById("productosEnCarritoId")
+    if(carrito.length>0){
+
+        compraRealizada()
+        let carritoFisico = document.getElementById("pantallaCarrito")
+        let botonFinalizarCompra = document.getElementById("finalizarCompra")
+        //botonFinalizarCompra.addEventListener("click", compraRealizada)
+        //carritoFisico.innerHTML =  `<h1>Gracias por su compra </h1>`
+        carritoFisico.innerHTML = ""
+        botonFinalizarCompra.classList.add("oculto")
+        localStorage.clear()
+        
+        carrito.splice(0, carrito.length) // Para que se borre el carrito cuando finalice la compra
+        let cantidadProductosEnCarrito= document.getElementById("productosEnCarritoId")
+        
+        cantidadProductosEnCarrito.textContent = '0'
+        renderizarCarrito(arrayProductos, carrito)
+        funcionBotonRegresar(arrayProductos, carrito, contenedorProductos)
+    }
+    else{
+        carritoVacio()
+        funcionBotonRegresar(arrayProductos, carrito, contenedorProductos)
+    }
     
-    cantidadProductosEnCarrito.textContent = '0'
-    renderizarCarrito(arrayProductos, carrito)
-    funcionBotonRegresar(arrayProductos, carrito, contenedorProductos)
 
     
 
@@ -468,6 +477,17 @@ function errorCarga() {
         text: 'Por favor, recargar pagina',
         showConfirmButton: false,
         timer: 7000
+    })
+}
+
+function carritoVacio() {
+
+    Swal.fire({
+        position: 'top-center',
+        icon: 'info',
+        title: 'El carrito se encuentra vacio',
+        showConfirmButton: false,
+        timer: 2000
     })
 }
 
