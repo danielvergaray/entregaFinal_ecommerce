@@ -4,7 +4,7 @@
     
         { "id": 10, "nombre": "Galleta Oreo", "categoria": "DULCES", "precioUnitario": 5.00, "linkImagen": "oreoVainilla.png" },
         { "id": 15, "nombre": "Bombones", "categoria": "DULCES", "precioUnitario": 8.00, "linkImagen": "bombonesRellenos.png" },
-        { "id": 20, "nombre": "Papas Picantes", "categoria": "SALADOS", "precioUnitario": 4.00, "linkImagen": "papasFritas.png" },
+        { "id": 20, "nombre": "Papas Picantes", "categoria": "SALADOS", "precioUnitario": 4.00, "linkImagen": "doritos.png" },
         { "id": 25, "nombre": "Inka Chips salados", "categoria": "SALADOS", "precioUnitario": 2.50, "linkImagen": "inkaChips.png" },
         { "id": 30, "nombre": "Almendras", "categoria": "SALUDABLES", "precioUnitario": 10.50, "linkImagen": "almendras.png" },
         { "id": 35, "nombre": "Nueces peladas", "categoria": "SALUDABLES", "precioUnitario": 12.50, "linkImagen": "nuecesPeladas.png" }
