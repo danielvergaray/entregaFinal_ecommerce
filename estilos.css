@@ -408,12 +408,19 @@
     .desktopCabecera {
         width: 100%;
         display: flex;
-        justify-content: flex-start;
+        width: 100%;
+        justify-content: space-between;
 
+    }
+    #botonBusqueda{
+        display: none;
     }
 
     .desktopCabecera .desktopCabecera__buscarContenedor {
         padding-left: 0px;
+    }
+    .desktopCabecera__buscar{
+        display: none;
     }
 
     .main__container {
@@ -452,5 +459,7 @@
     margin: auto;
     width: 100%;
    }
-   
+   .contenedorCarritoCantidad{
+    padding-right: 40px;
+   }
 }
